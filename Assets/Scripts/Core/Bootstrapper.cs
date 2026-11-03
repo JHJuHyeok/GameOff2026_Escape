@@ -12,7 +12,7 @@ namespace MainSystem
 
         private void Start()
         {
-            //SceneLoader.Instance.LoadScene(firstScene, fadeDuration);
+            SceneLoader.Instance.LoadScene(firstScene, fadeDuration);
         }
     }
 }
