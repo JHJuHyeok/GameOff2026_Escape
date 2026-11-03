@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -28,9 +27,9 @@ namespace MainSystem
         [SerializeField] private AudioMixerGroup bgmGroup;
         [SerializeField] private AudioMixerGroup sfxGroup;
 
-        private const string masterParam = "MasterVolume";
-        private const string bgmParam = "BGMVolume";
-        private const string sfxParam = "SFXVolume";
+        private const string MasterParam = "MasterVolume";
+        private const string BgmParam = "BGMVolume";
+        private const string SfxParam = "SFXVolume";
 
         [Header("SFX")]
         [Tooltip("동시 재생 가능한 SFX 최대 개수. 초과 시 가장 오래된 소리 끊고 재사용")]
@@ -45,7 +44,7 @@ namespace MainSystem
         private BgmAudioPlayer _bgm;
         private SfxAudioPlayer _sfxTemplate;
         private Transform _sfxRoot;
-        private readonly List<SfxAudioPlayer> _activeSfx = new List<SfxAudioPlayer>();
+        private readonly List<SfxAudioPlayer> _activeSfx = new();
         private readonly float[] _volumes = new float[3];
 
         private bool UseMixer => mixer != null;
@@ -217,9 +216,9 @@ namespace MainSystem
 
         private string ParamName(VolumeChannel channel) => channel switch
         {
-            VolumeChannel.Master => masterParam,
-            VolumeChannel.Bgm => bgmParam,
-            _ => sfxParam
+            VolumeChannel.Master => MasterParam,
+            VolumeChannel.Bgm => BgmParam,
+            _ => SfxParam
         };
 
         private static string PrefKey(VolumeChannel channel) => $"Volume_{channel}";
