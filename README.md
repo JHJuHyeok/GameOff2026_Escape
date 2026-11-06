@@ -1,16 +1,13 @@
 # Title: [Shifed Zone]
 *Not confirmed*
----
 
 ## Overview
----
 
 One day, the entire population of a city suddenly vanished.
 You take on the role of a girl who works as a scavenger, and you enter an abandoned building.
 You must gather your items and escape, aided by a strange manual left behind by someone.
 
 ## Core Gameplay
----
 
 This is a loot-based, inventory management game that draws inspiration from the "rule-based horror" (or "creepy rules") genre. The objective is to escape with valuable items while adhering to randomly assigned rules and managing stats related to your survival and stress levels.
 The game features a 2D side-scrolling format.
@@ -21,10 +18,10 @@ The game features a 2D side-scrolling format.
 4. **[Step 4]** - Find an Escape Route
 
 *Example Image*
-https://cdn.discordapp.com/attachments/1552222529706270751/1567552312757588048/In_Game_UI_Prototype_OnlyReadme.png?ex=6aef3b5b&is=6aede9db&hm=68901ac60794dfcbc99ec4f934fd66b67b83b0c3690ca8ea52421fc37d0a2f91&
+<img width="1920" height="1080" alt="In_Game_UI_Prototype_OnlyReadme" src="https://github.com/user-attachments/assets/fddfc236-84b4-4b5a-8e4d-7551d04198f9" />
+
 
 ## Theme Interpretation
----
 
 **Theme: [Shift]**
 
@@ -37,7 +34,6 @@ There are phenomenons you will encounter:
 and others
 
 ## Development Information
----
 
 - **Game Jam:** Github Game Off 2026
 - **Development Period:** 2026/11/01 - 2026/12/01
