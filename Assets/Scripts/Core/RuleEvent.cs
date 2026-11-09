@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using MainSystem;
 
 namespace RuleSystem
@@ -71,10 +72,10 @@ namespace RuleSystem
         {
             switch (kind)
             {
-                //case Kind.Stat:         return Compare(c.Stats.Get(stat), comparison, value);
-                //case Kind.WeightRatio:  return Compare(c.Inventory.WeightRatio, comparison, value);
-                //case Kind.FlagOn:       return c.World.Has(flag);
-                //case Kind.FlagOff:      return !c.World.Has(flag);
+                //case kind.stat:         return compare(c.stats.get(stat), comparison, value);
+                //case kind.weightratio:  return compare(c.inventory.weightratio, comparison, value);
+                //case kind.flagon:       return c.world.has(flag);
+                //case kind.flagoff:      return !c.world.has(flag);
             }
             return true;
         }
@@ -100,11 +101,11 @@ namespace RuleSystem
     /// 효과/조건이 접근할 게임 상태 집합
     public class RuleContext
     {
-        //public PlayerStats Stats;
-        //public GridInventory Inventory;
-        //public PlayerController Player;
-        //public WorldState World;
-        //public MonoBehaviour Runner;            // 코루틴 실행용
+        public PlayerStats Stats;
+        public GridInventory Inventory;
+        public PlayerController Player;
+        public WorldState World;
+        public MonoBehaviour Runner;            // 코루틴 실행용
         //public int Floor => Player.CurrentFloor;
     }
 }

@@ -38,6 +38,6 @@ namespace RuleSystem
         [Header("추첨")]
         [Min(0)] public float weight = 1f;
         [Tooltip("같은 그룹의 규칙은 한 판에 하나로 제한(모순/중복 방지)")]
-        public char exclusiveGroup;
+        public char? exclusiveGroup;
     }
 }
