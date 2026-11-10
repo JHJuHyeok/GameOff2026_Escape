@@ -15,7 +15,7 @@ namespace RuleSystem
     /// 규칙의 대상이 될 수 있는 모든 것에 상속시킬 것
     public interface ITargetable
     {
-        string Id { get; }
+        int Id { get; }
         TargetKind Kind { get; }
         // 특정한 조건 명시 (예: 붉은 것, 무언가를 포함하는, 표식)
         IReadOnlyCollection<string> Tags { get; } 

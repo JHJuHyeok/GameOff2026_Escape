@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MainSystem;
+using Player;
 
 namespace RuleSystem
 {
@@ -37,7 +38,7 @@ namespace RuleSystem
     public class TargetFilter
     {
         public TargetKind kind = TargetKind.Any;
-        public string specificId;                       // 비었으면 무시
+        public int specificId;                       // 비었으면 무시
         public List<string> requiredTags = new();       // 요구 태그(전부 포함되야 일치)
         public List<string> excludeTags = new();        // 제외 태그(하나라도 있으면 불일치)
         public bool restrictFloor;
@@ -46,9 +47,9 @@ namespace RuleSystem
         public bool Matches(ITargetable t, int eventFloor)
         {
             if (restrictFloor && eventFloor != floor) return false;
-            if (t == null) return kind == TargetKind.Any && string.IsNullOrEmpty(specificId) && requiredTags.Count == 0;
+            if (t == null) return kind == TargetKind.Any && specificId != 0 && requiredTags.Count == 0;
             if (kind != TargetKind.Any && t.Kind != kind) return false;
-            if (!string.IsNullOrEmpty(specificId) && t.Id != specificId) return false;
+            if (specificId != 0 && t.Id != specificId) return false;
             foreach (var tag in requiredTags) if (!Has(t, tag)) return false;
             foreach (var tag in excludeTags) if (Has(t, tag)) return false;
             return true;

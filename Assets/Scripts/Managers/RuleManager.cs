@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MainSystem;
+using Player;
 
 namespace RuleSystem
 {
@@ -15,6 +16,8 @@ namespace RuleSystem
 
     public class RuleManager : MonoBehaviour
     {
+        public static RuleManager Instance { get; private set; }
+
         [SerializeField] RuleDatabase database;
         [SerializeField] int ruleCount = 3;
         [SerializeField] PlayerStats stats;
@@ -33,6 +36,7 @@ namespace RuleSystem
 
         private void Awake()
         {
+            Instance = this;
             Context = new RuleContext
             {
                 Stats = stats,
