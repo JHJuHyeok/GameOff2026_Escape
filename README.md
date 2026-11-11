@@ -1,4 +1,4 @@
-# Title: [Shifed Zone]
+# Title: [Shifted Zone]
 *Not confirmed*
 
 ## Overview
