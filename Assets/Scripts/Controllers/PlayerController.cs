@@ -21,6 +21,8 @@ namespace Ju.Player
         public RoomSpace CurrentSpace { get; set; }
         public GridInventory Inventory { get; private set; }
 
+        private static InputManager s_input = InputManager.Instance;
+
         private void Awake()
         {
             Instance = this;
@@ -43,23 +45,10 @@ namespace Ju.Player
 
         // ---------------- 입력 읽기 ----------------
 #if ENABLE_INPUT_SYSTEM
-        private static float ReadMoveX()
-        {
-            var input = InputManager.Instance;
-            return input != null ? input.Move.x : 0f;
-        }
-
-        private static bool ReadInteractPressed()
-        {
-            var input = InputManager.Instance;
-            return input != null && input.InteractPressed;
-        }
-
-        private static bool ReadInventoryPressed()
-        {
-            var input = InputManager.Instance;
-            return input != null && input.InventoryPressed;
-        }
+        private static float ReadMoveX() => s_input != null ? s_input.Move.x : 0f;
+        private static bool ReadInteractPressed() => s_input != null && s_input.InteractPressed;
+        private static bool ReadInventoryPressed() => s_input != null && s_input.InventoryPressed;
+        
 #else
         // Input System이 비활성 중일 때
         private static float ReadMoveX() => Input.GetAxisRaw("Horizontal");
