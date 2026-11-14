@@ -2,14 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using RuleSystem;
+using Player;
 
 namespace Environment
 {
+    [Serializable] public struct LootEntry { public ItemData item; [Range(0, 1)] public float chance; }
+
+    [RequireComponent(typeof(Collider2D))]
     public class Interactable : MonoBehaviour, ITargetable
     {
         [SerializeField] private int id;
         [SerializeField] private List<string> tags = new();
-        //[SerializeField] private List<LootEntry> loot = new();
+        [SerializeField] private List<LootEntry> loot = new();
         [SerializeField] private bool singleUse = true;
 
         private bool used;
@@ -17,18 +21,15 @@ namespace Environment
 
         public int Id => id;
         public virtual TargetKind Kind => TargetKind.Object;
-        public IReadOnlyCollection<string> Tags => tags;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public virtual void Interact(PlayerController player)
         {
+            used = true;
+            //PlayerController.Emit(ActionType.Interact, this);
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            //foreach (var entry in loot)
+            //    if (UnityEngine.Random.value <= entry.chance)
+            //        player.Inventory.TryAdd(entry.item, out _);
         }
     }
 }

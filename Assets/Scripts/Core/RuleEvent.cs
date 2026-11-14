@@ -50,12 +50,8 @@ namespace RuleSystem
             if (t == null) return kind == TargetKind.Any && specificId != 0 && requiredTags.Count == 0;
             if (kind != TargetKind.Any && t.Kind != kind) return false;
             if (specificId != 0 && t.Id != specificId) return false;
-            foreach (var tag in requiredTags) if (!Has(t, tag)) return false;
-            foreach (var tag in excludeTags) if (Has(t, tag)) return false;
             return true;
         }
-        private static bool Has(ITargetable t, string tag) 
-        { foreach (var x in t.Tags) if (x == tag) return true; return false; }
     }
 
     // ----------- Á¶°Ç -----------

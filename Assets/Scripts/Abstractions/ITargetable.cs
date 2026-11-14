@@ -17,7 +17,5 @@ namespace RuleSystem
     {
         int Id { get; }
         TargetKind Kind { get; }
-        // 특정한 조건 명시 (예: 붉은 것, 무언가를 포함하는, 표식)
-        IReadOnlyCollection<string> Tags { get; } 
     }
 }
