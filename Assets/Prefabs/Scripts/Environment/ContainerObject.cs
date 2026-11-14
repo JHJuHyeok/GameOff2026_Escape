@@ -8,37 +8,32 @@ namespace Ju.Environment
     [Serializable] public struct LootEntry { public ItemData item;[Range(0, 1)] public float chance; }
 
     /// 상호작용하면 아이템이 담긴 GridInventory가 열리는 물체
-    public class Container : Interactable
+    public class ContainerObject : Interactable
     {
         [SerializeField] private Vector2Int gridSize = new(4, 3);
         [SerializeField] private List<LootEntry> loot = new();
 
-        private Collider2D col;
         private GridInventory container;
-        private PlayerController user;
         private bool interactRaised;
 
         public bool IsOpen { get; private set; }
 
-        private void Awake() => col = GetComponent<Collider2D>();
+        public GridInventory Container => container ??= CreateContainer();
 
         private void OnValidate() => gridSize = Vector2Int.Max(gridSize, Vector2Int.one);
 
         private void OnDestroy()
         {
-            
-        }
-
-        private void Update()
-        {
-            
+            if (IsOpen && InventoryPanel.Instance != null) InventoryPanel.Instance.CloseContainer();
         }
 
         protected override void OnInteract(PlayerController player)
         {
             if (IsOpen) return;
 
-            user = player;
+            var panel = InventoryPanel.Instance;
+            if (panel == null) return;
+
             IsOpen = true;
 
             if (!interactRaised)
@@ -47,13 +42,12 @@ namespace Ju.Environment
                 RaiseInteracted();
             }
 
-            //panel.Open(Container, player.Inventory, OnPanelClosed);
+            panel.OpenContainer(Container, OnPanelClosed);
         }
 
         private void OnPanelClosed()
         {
             IsOpen = false;
-            user = null;
 
             // 컨테이너의 '사용 완료' = 전부 꺼내서 비었을 때
             if (container != null && container.Items.Count == 0) MarkUsed();

@@ -35,6 +35,9 @@ namespace Ju.Player
             //if (h != 0f)
             //    transform.Translate(Vector3.right * h * moveSpeed * stats.MoveSpeedMultiplier * Time.deltaTime);
 
+            if (ReadInventoryPressed() && InventoryPanel.Instance != null)
+                InventoryPanel.Instance.ToggleInventory();
+
             if (ReadInteractPressed()) TryInteract();
         }
 
@@ -51,10 +54,17 @@ namespace Ju.Player
             var input = InputManager.Instance;
             return input != null && input.InteractPressed;
         }
+
+        private static bool ReadInventoryPressed()
+        {
+            var input = InputManager.Instance;
+            return input != null && input.InventoryPressed;
+        }
 #else
         // Input System이 비활성 중일 때
         private static float ReadMoveX() => Input.GetAxisRaw("Horizontal");
         private static bool ReadInteractPressed() => Input.GetKeyDown(KeyCode.E);
+        private static bool ReadInventoryPressed() => Input.GetKeyDown(KeyCode.Tab);
 #endif
 
         // ---------------- 상호작용 ----------------
