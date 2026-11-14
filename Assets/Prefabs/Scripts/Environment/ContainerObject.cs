@@ -18,6 +18,7 @@ namespace Ju.Environment
 
         public bool IsOpen { get; private set; }
 
+        /// 최초 접근 시 생성
         public GridInventory Container => container ??= CreateContainer();
 
         private void OnValidate() => gridSize = Vector2Int.Max(gridSize, Vector2Int.one);

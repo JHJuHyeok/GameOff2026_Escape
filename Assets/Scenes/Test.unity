@@ -523,6 +523,7 @@ MonoBehaviour:
   lookName: Look
   jumpName: Jump
   attackName: Attack
+  inventoryName: Inventory
   interactName: Interact
   pauseName: Pause
 --- !u!4 &1753561751
