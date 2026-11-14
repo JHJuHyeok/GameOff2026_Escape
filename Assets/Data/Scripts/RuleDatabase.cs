@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     [CreateAssetMenu(fileName = "RuleDatabase", menuName = "RuleSystem/Rule Database")]
     public class RuleDatabase : ScriptableObject

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     /// 규칙의 효과 정의. 새 효과는 이 클래스를 상속해 SO로 만들기
     public abstract class RuleEffect : ScriptableObject

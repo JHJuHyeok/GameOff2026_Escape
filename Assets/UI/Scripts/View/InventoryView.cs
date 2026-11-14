@@ -47,7 +47,7 @@ public class InventoryView : MonoBehaviour
         dragController.Register(this);
     }
 
-    private void Unbind()
+    public void Unbind()
     {
         if (Inventory == null) return;
         if (dragController != null) dragController.UnRegister(this);

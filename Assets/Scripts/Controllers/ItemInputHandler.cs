@@ -8,7 +8,7 @@ public class ItemInputHandler : MonoBehaviour,
     private ItemView view;
     private InventoryDragController controller;
 
-    private void Awake() => GetComponent<ItemView>();
+    private void Awake() => view = GetComponent<ItemView>();
     public void Init(InventoryDragController controller) => this.controller = controller;
 
     public void OnBeginDrag(PointerEventData e) { if (controller != null) controller.BeginDrag(view, e); }

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     // ----------- 기본 열거형 -----------   : 추가 및 제거 여부는 차후 결정
     /// 규칙의 '행동'. 게임 시스템이 발행하는 모든 사건의 종류

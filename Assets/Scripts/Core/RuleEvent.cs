@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MainSystem;
-using Player;
+using Ju.Player;
 
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     /// "어디서(Floor) 무엇을(Target) 어떻게(Action) 했는가" - 'Floor'는 이후 수정 가능성 있음
     public readonly struct RuleEvent : IEvent

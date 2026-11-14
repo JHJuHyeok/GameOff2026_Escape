@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     public enum RuleMode 
     { 

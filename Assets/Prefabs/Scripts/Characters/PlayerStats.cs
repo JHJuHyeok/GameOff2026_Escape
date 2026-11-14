@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using RuleSystem;
+using Ju.RuleSystem;
 
-namespace Player
+namespace Ju.Player
 {
     [Serializable]
     public class StatEntry
