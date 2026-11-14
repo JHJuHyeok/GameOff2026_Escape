@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MainSystem;
 using Ju.Player;
+using Ju.Environment;
 
 namespace Ju.RuleSystem
 {
@@ -103,6 +104,7 @@ namespace Ju.RuleSystem
         public PlayerController Player;
         public WorldState World;
         public MonoBehaviour Runner;            // 코루틴 실행용
-        //public int Floor => Player.CurrentFloor;
+        public int Floor => Player.CurrentFloor;
+        public RoomSpace Room => Player.CurrentSpace;
     }
 }

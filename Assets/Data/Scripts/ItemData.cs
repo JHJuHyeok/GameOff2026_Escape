@@ -1,12 +1,18 @@
 using System;
 using UnityEngine;
 
+public enum ItemType { Expendable, Use, Luxury }
+
 [CreateAssetMenu(menuName = "Data/Item Data", fileName = "NewItem")]
 public class ItemData : ScriptableObject
 {
     public string ItemName;
     public Sprite Icon;
-    [Min(0f)] public float Weight = 1f;
+    [Min(0f)] public float Weight = 1f;     // 무게
+    [Min(0)] public int durability = 1;     // 내구도
+    public ItemType type;
+    public string description;
+
     public ShapeMask Shape = new();
     public bool CanRotate = true;
 

@@ -15,7 +15,7 @@ namespace Ju.RuleSystem
         Deceptive           // 가짜 규칙 -> 어떻게 할지 의논 필요
     }
 
-    [CreateAssetMenu(fileName = "Rule", menuName = "RuleSystem/Rule")]
+    [CreateAssetMenu(menuName = "Data/Rule Definition", fileName = "Rule")]
     public class RuleDefinition : ScriptableObject
     {
         [Header("식별")]
