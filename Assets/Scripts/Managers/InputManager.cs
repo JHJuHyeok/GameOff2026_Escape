@@ -26,32 +26,34 @@ namespace MainSystem
         [SerializeField] private string uiMap = "UI";
 
         [Header("Action 이름 (Gameplay 맵 안)")]
-        [SerializeField] private string moveName = "Move";
-        [SerializeField] private string lookName = "Look";
-        [SerializeField] private string jumpName = "Jump";
-        [SerializeField] private string attackName = "Attack";
-        [SerializeField] private string interactName = "Interact";
-        [SerializeField] private string pauseName = "Pause";
+        [SerializeField] private string moveName        = "Move";
+        [SerializeField] private string lookName        = "Look";
+        [SerializeField] private string jumpName        = "Jump";
+        [SerializeField] private string attackName      = "Attack";
+        [SerializeField] private string inventoryName   = "Inventory";
+        [SerializeField] private string interactName    = "Interact";
+        [SerializeField] private string pauseName       = "Pause";
 
         private InputActionMap _gameplay, _ui;
-        private InputAction _move, _look, _jump, _attack, _interact, _pause;
+        private InputAction _move, _look, _jump, _attack, _inventory, _interact, _pause;
 
         public bool GameplayEnabled { get; private set; }
 
         // ---------------- 값 읽기 ----------------
 
-        public Vector2 Move => _move != null ? _move.ReadValue<Vector2>() : Vector2.zero;
-        public Vector2 Look => _look != null ? _look.ReadValue<Vector2>() : Vector2.zero;
+        public Vector2 Move         => _move != null ? _move.ReadValue<Vector2>() : Vector2.zero;
+        public Vector2 Look         => _look != null ? _look.ReadValue<Vector2>() : Vector2.zero;
 
-        public bool JumpPressed => _jump != null && _jump.WasPressedThisFrame();
-        public bool JumpHeld => _jump != null && _jump.IsPressed();
-        public bool JumpReleased => _jump != null && _jump.WasReleasedThisFrame();
+        public bool JumpPressed     => _jump != null && _jump.WasPressedThisFrame();
+        public bool JumpHeld        => _jump != null && _jump.IsPressed();
+        public bool JumpReleased    => _jump != null && _jump.WasReleasedThisFrame();
 
-        public bool AttackPressed => _attack != null && _attack.WasPressedThisFrame();
-        public bool AttackHeld => _attack != null && _attack.IsPressed();
+        public bool AttackPressed   => _attack != null && _attack.WasPressedThisFrame();
+        public bool AttackHeld      => _attack != null && _attack.IsPressed();
 
+        public bool InventoryPressed => _inventory != null && _inventory.WasPressedThisFrame();
         public bool InteractPressed => _interact != null && _interact.WasPressedThisFrame();
-        public bool PausePressed => _pause != null && _pause.WasPressedThisFrame();
+        public bool PausePressed    => _pause != null && _pause.WasPressedThisFrame();
 
         // ---------------- 초기화 ----------------
 
@@ -75,14 +77,17 @@ namespace MainSystem
                 return;
             }
 
-            _move = _gameplay.FindAction(moveName, false);
-            _look = _gameplay.FindAction(lookName, false);
-            _jump = _gameplay.FindAction(jumpName, false);
-            _attack = _gameplay.FindAction(attackName, false);
-            _interact = _gameplay.FindAction(interactName, false);
-            _pause = _gameplay.FindAction(pauseName, false);
+            _move       = _gameplay.FindAction(moveName, false);
+            _look       = _gameplay.FindAction(lookName, false);
+            _jump       = _gameplay.FindAction(jumpName, false);
+            _attack     = _gameplay.FindAction(attackName, false);
+            _interact   = _gameplay.FindAction(interactName, false);
+            _pause      = _gameplay.FindAction(pauseName, false);
+
+            _inventory  = _ui?.FindAction(inventoryName, false);
 
             SetGameplayEnabled(true);
+            SetUIEnabled(true);
         }
 
         protected override void OnDestroy()

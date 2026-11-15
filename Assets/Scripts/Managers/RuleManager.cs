@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MainSystem;
-using Player;
+using Ju.Player;
 
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     public class ActiveRule
     {

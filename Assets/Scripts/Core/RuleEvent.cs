@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MainSystem;
-using Player;
+using Ju.Player;
+using Ju.Environment;
 
-namespace RuleSystem
+namespace Ju.RuleSystem
 {
     /// "어디서(Floor) 무엇을(Target) 어떻게(Action) 했는가" - 'Floor'는 이후 수정 가능성 있음
     public readonly struct RuleEvent : IEvent
@@ -50,12 +51,8 @@ namespace RuleSystem
             if (t == null) return kind == TargetKind.Any && specificId != 0 && requiredTags.Count == 0;
             if (kind != TargetKind.Any && t.Kind != kind) return false;
             if (specificId != 0 && t.Id != specificId) return false;
-            foreach (var tag in requiredTags) if (!Has(t, tag)) return false;
-            foreach (var tag in excludeTags) if (Has(t, tag)) return false;
             return true;
         }
-        private static bool Has(ITargetable t, string tag) 
-        { foreach (var x in t.Tags) if (x == tag) return true; return false; }
     }
 
     // ----------- 조건 -----------
@@ -107,6 +104,7 @@ namespace RuleSystem
         public PlayerController Player;
         public WorldState World;
         public MonoBehaviour Runner;            // 코루틴 실행용
-        //public int Floor => Player.CurrentFloor;
+        public int Floor => Player.CurrentFloor;
+        public RoomSpace Room => Player.CurrentSpace;
     }
 }

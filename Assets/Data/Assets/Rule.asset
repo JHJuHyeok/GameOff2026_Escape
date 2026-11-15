@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcf53a50d4b16747a7d54698815da56, type: 3}
+  m_Name: Rule
+  m_EditorClassIdentifier: Assembly-CSharp::Ju.RuleSystem.RuleDefinition
+  ruleId: 
+  displayText: 
+  mode: 0
+  veracity: 0
+  trigger:
+    action: 0
+    target:
+      kind: 0
+      specificId: 0
+      requiredTags: []
+      excludeTags: []
+      restrictFloor: 0
+      floor: 0
+    conditions: []
+  response:
+    action: 0
+    target:
+      kind: 0
+      specificId: 0
+      requiredTags: []
+      excludeTags: []
+      restrictFloor: 0
+      floor: 0
+    conditions: []
+  deadline: 5
+  onViolation: []
+  weight: 1
