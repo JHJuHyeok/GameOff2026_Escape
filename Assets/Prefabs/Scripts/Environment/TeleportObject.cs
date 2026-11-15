@@ -18,7 +18,7 @@ namespace Ju.Environment
 
             RaiseInteracted();
             player.TeleportTo(destination.position, destinationFloor);
-            MarkUsed();
+            //MarkUsed();
         }
     }
 }

@@ -84,9 +84,10 @@ namespace MainSystem
             _interact   = _gameplay.FindAction(interactName, false);
             _pause      = _gameplay.FindAction(pauseName, false);
 
-            _inventory  = _ui.FindAction(inventoryName, false);
+            _inventory  = _ui?.FindAction(inventoryName, false);
 
             SetGameplayEnabled(true);
+            SetUIEnabled(true);
         }
 
         protected override void OnDestroy()

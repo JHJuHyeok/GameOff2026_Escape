@@ -29,7 +29,8 @@ namespace Ju.Player
             if (Instance != null && Instance != this) { Destroy(gameObject); return; }
             Instance = this;
 
-            stats = GetComponent<PlayerStats>();
+            if (this.TryGetComponent<PlayerStats>(out var st)) stats = st;
+            else stats = this.GetComponentInParent<PlayerStats>();
             Inventories = new PlayerInventory(maxWeight, hardWeightLimit);
             Inventory = new GridInventory(inventorySize.x, inventorySize.y, "player");
             Inventories.Add(Inventory);
@@ -52,7 +53,11 @@ namespace Ju.Player
             if (ReadInventoryPressed() && InventoryPanel.Instance != null)
                 InventoryPanel.Instance.ToggleInventory();
 
-            if (ReadInteractPressed()) TryInteract();
+            if (ReadInteractPressed())
+            {
+                Debug.Log("상호작용 발생");
+                TryInteract();
+            }
         }
 
         private void OnDestroy()
