@@ -222,6 +222,8 @@ GameObject:
   - component: {fileID: 851870553}
   - component: {fileID: 851870552}
   - component: {fileID: 851870551}
+  - component: {fileID: 851870555}
+  - component: {fileID: 851870554}
   m_Layer: 0
   m_Name: Player_Temp
   m_TagString: Untagged
@@ -349,6 +351,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &851870554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851870550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd62ef6798e289546b1bcaa2f379066e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ju.Player.PlayerStats
+  entries:
+  - type: 0
+    max: 100
+    value: 100
+    changePerSecond: -0.12
+  - type: 1
+    max: 100
+    value: 100
+    changePerSecond: -0.1
+  - type: 2
+    max: 100
+    value: 100
+    changePerSecond: 0
+  - type: 4
+    max: 100
+    value: 0
+    changePerSecond: 0
+  - type: 3
+    max: 100
+    value: 0
+    changePerSecond: 0.1
+--- !u!114 &851870555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851870550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bd818238856fb49b7032f938d05ec4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ju.Player.PlayerController
+  moveSpeed: 4
+  interactRadius: 1
+  stats: {fileID: 851870554}
+  inventorySize: {x: 10, y: 10}
 --- !u!1 &939397890
 GameObject:
   m_ObjectHideFlags: 0

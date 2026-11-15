@@ -18,8 +18,8 @@ namespace Ju.Player
     /// 생존 스탯. 무게가 스태미나에 영향을 줌 (그 외는 추가 논의)
     public class PlayerStats : MonoBehaviour
     {
-        [SerializeField] List<StatEntry> entries = new(5);
-        [SerializeField] GridInventory inventory;
+        [SerializeField] private List<StatEntry> entries = new(5);
+        private PlayerInventory inventory;
         private readonly Dictionary<StatType, StatEntry> map = new();
 
         public event Action<StatType, float> Changed;
@@ -37,8 +37,8 @@ namespace Ju.Player
             foreach (var e in entries)
                 if (e.changePerSecond != 0f) Modify(e.type, e.changePerSecond * Time.deltaTime);
 
-            //if (inventory != null && inventory.WeightRatio > 1f)
-            //    Modify(StatType.Stamina, (inventory.WeightRatio - 1f) * 5f * Time.deltaTime);
+            if (inventory != null && inventory.IsOverweight)
+                Modify(StatType.Stamina, (inventory.WeightRatio - 1f) * 5f * Time.deltaTime);
 
             // 스탯 관련 추가 규칙 논의 시 작성
         }
@@ -55,6 +55,26 @@ namespace Ju.Player
             };
         }
 
+        public void BindInventory(PlayerInventory inv)
+        {
+            if (inventory != null) inventory.WeightChanged -= SyncWeight;
+            inventory = inv;
+            if (inventory != null) { inventory.WeightChanged += SyncWeight; SyncWeight(); }
+        }
+
+        private void OnDestroy()
+        {
+            if (inventory != null) inventory.WeightChanged -= SyncWeight;
+        }
+
+        private void SyncWeight()
+        {
+            if (!map.TryGetValue(StatType.Weight, out var e)) return;
+            e.max = inventory.MaxWeight;
+            e.value = inventory.TotalWeight;
+            Changed?.Invoke(StatType.Weight, e.value);
+        }
+
         /// 스탯 타입에 따른 값 구하기
         public float Get(StatType t) => map.TryGetValue(t, out var e) ? e.value : 0f;
 
@@ -67,7 +87,7 @@ namespace Ju.Player
             if (t == StatType.Hunger && e.value <= 0f) { IsDead = true; Died?.Invoke(); }
         }
 
-        //public float MoveSpeedMultiplier =>
-        //    inventory == null ? 1f : Mathf.Lerp(1f, 0.4f, Mathf.InverseLerp(0.7f, 1.2f, inventory.WeightRatio));
+        public float MoveSpeedMultiplier =>
+            inventory == null ? 1f : Mathf.Lerp(1f, 0.4f, Mathf.InverseLerp(0.7f, 1.2f, inventory.WeightRatio));
     }
 }

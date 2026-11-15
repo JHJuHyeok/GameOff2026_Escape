@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Ju.Player;
 
 public class GridInventory
 {
@@ -49,7 +50,7 @@ public class GridInventory
     /// <summary>지정 위치에 배치</summary>
     public bool TryPlace(ItemInstance item, Vector2Int origin)
     {
-        if (items.Contains(item)) return false;
+        if (item == null || item.Owner != null) return false;
         if (!CanAccept(item, out _)) return false;
         if (!CanPlace(item.Shape, origin)) return false;
         Commit(item, origin);
@@ -59,8 +60,7 @@ public class GridInventory
     /// <summary>빈 공간 자동 탐색 후 배치</summary>
     public bool TryAutoPlace(ItemInstance item)
     {
-        if (items.Contains(item)) return false;
-        if (item.Owner != null || !CanAccept(item, out _)) return false;
+        if (item == null || item.Owner != null || !CanAccept(item, out _)) return false;
 
         int original = item.Rotation;
         int count = item.Data.RotationCount;
@@ -108,8 +108,7 @@ public class GridInventory
 
     public bool Remove(ItemInstance item)
     {
-        if (!items.Remove(item)) return false;
-        items.Remove(item);
+        if (item == null || item.Owner != this || !items.Remove(item)) return false;
         Clear(item);
         item.Owner = null;
         ItemRemoved?.Invoke(item);
@@ -122,6 +121,8 @@ public class GridInventory
         if (rule != null) rules.Add(rule);
         return this;
     }
+
+    public bool RemoveRule(IPlacementRule rule) => rules.Remove(rule);
 
     /// <summary>수납 규칙 검사. 이미 이 인벤토리 소속이면 이동이니 통과</summary>
     public bool CanAccept(ItemInstance item, out string reason)

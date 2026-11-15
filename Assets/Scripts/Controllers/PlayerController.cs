@@ -13,20 +13,32 @@ namespace Ju.Player
 
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private float interactRadius = 1f;
-        [SerializeField] private PlayerStats stats;
-        [SerializeField] private GridInventory inventory;
         [SerializeField] private Vector2Int inventorySize = new(10, 10);
+        [SerializeField] private float maxWeight = 100f;
+        [SerializeField] private bool hardWeightLimit = false;
+
+        private PlayerStats stats;
 
         public int CurrentFloor { get; private set; }
         public RoomSpace CurrentSpace { get; set; }
+        public PlayerInventory Inventories { get; private set; }
         public GridInventory Inventory { get; private set; }
-
-        private static InputManager s_input = InputManager.Instance;
 
         private void Awake()
         {
+            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
             Instance = this;
+
+            stats = GetComponent<PlayerStats>();
+            Inventories = new PlayerInventory(maxWeight, hardWeightLimit);
             Inventory = new GridInventory(inventorySize.x, inventorySize.y, "player");
+            Inventories.Add(Inventory);
+        }
+
+        private void Start()
+        {
+            stats.BindInventory(Inventories);
+            stats.Died += OnDied;
         }
 
         private void Update()
@@ -34,8 +46,8 @@ namespace Ju.Player
             if (stats.IsDead) return;
 
             float h = ReadMoveX();
-            //if (h != 0f)
-            //    transform.Translate(Vector3.right * h * moveSpeed * stats.MoveSpeedMultiplier * Time.deltaTime);
+            if (h != 0f)
+                transform.Translate(Vector3.right * h * moveSpeed * stats.MoveSpeedMultiplier * Time.deltaTime);
 
             if (ReadInventoryPressed() && InventoryPanel.Instance != null)
                 InventoryPanel.Instance.ToggleInventory();
@@ -43,11 +55,29 @@ namespace Ju.Player
             if (ReadInteractPressed()) TryInteract();
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this) Instance = null;
+            if (stats != null) stats.Died -= OnDied;
+        }
+
         // ---------------- 입력 읽기 ----------------
 #if ENABLE_INPUT_SYSTEM
-        private static float ReadMoveX() => s_input != null ? s_input.Move.x : 0f;
-        private static bool ReadInteractPressed() => s_input != null && s_input.InteractPressed;
-        private static bool ReadInventoryPressed() => s_input != null && s_input.InventoryPressed;
+        private static float ReadMoveX()
+        {
+            var input = InputManager.Instance;
+            return input != null ? input.Move.x : 0f;
+        }
+        private static bool ReadInteractPressed()
+        {
+            var input = InputManager.Instance;
+            return input != null && input.InteractPressed;
+        }
+        private static bool ReadInventoryPressed()
+        {
+            var input = InputManager.Instance;
+            return input != null && input.InventoryPressed;
+        }
         
 #else
         // Input System이 비활성 중일 때
@@ -55,6 +85,13 @@ namespace Ju.Player
         private static bool ReadInteractPressed() => Input.GetKeyDown(KeyCode.E);
         private static bool ReadInventoryPressed() => Input.GetKeyDown(KeyCode.Tab);
 #endif
+
+        private void OnDied()
+        {
+            // 입력 차단
+            // 사망 UI
+            // 게임 오버 처리
+        }
 
         // ---------------- 상호작용 ----------------
         private void TryInteract()
