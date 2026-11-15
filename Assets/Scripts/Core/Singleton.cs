@@ -1,5 +1,17 @@
 using UnityEngine;
 
+/// 모든 Singleton class가 공유하는 종료 상태. Play 시작 시 항상 초기화
+public static class SingletonState
+{
+    public static bool IsQuitting { get; internal set; }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetState()
+    {
+        IsQuitting = false;
+    }
+}
+
 /// <summary>
 /// MonoBehaviour 싱글톤 베이스
 /// 
@@ -18,7 +30,6 @@ using UnityEngine;
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     protected static T _instance;
-    protected static bool _isQuitting;
 
     /// <summary>Instance 호출하지 않고 존재 여부만 확인 (해제/구독 취소 시 사용)</summary>
     public static bool HasInstance => _instance != null;
@@ -27,7 +38,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            if (_isQuitting || !Application.isPlaying)
+            if (SingletonState.IsQuitting || !Application.isPlaying)
                 return null;
 
             if (_instance == null)
@@ -81,6 +92,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void OnApplicationQuit()
     {
-        _isQuitting = true;
+        SingletonState.IsQuitting = true;
     }
 }

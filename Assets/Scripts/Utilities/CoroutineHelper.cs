@@ -23,7 +23,7 @@ namespace UtilityTool
         private static void ResetStatics()
         {
             _instance = null;
-            _isQuitting = false;
+            SingletonState.IsQuitting = false;
         }
 
         // ---------------- Public API ----------------

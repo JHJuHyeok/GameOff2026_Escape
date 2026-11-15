@@ -66,6 +66,8 @@ namespace Ju.Player
         private static float ReadMoveX()
         {
             var input = InputManager.Instance;
+            if (input == null)
+                Debug.Log("InputManager가 비어있음");
             return input != null ? input.Move.x : 0f;
         }
         private static bool ReadInteractPressed()

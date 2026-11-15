@@ -5,7 +5,6 @@ using Ju.Player;
 
 namespace Ju.Environment
 {
-    [RequireComponent(typeof(Collider2D))]
     public class RoomSpace : MonoBehaviour, ITargetable
     {
         [SerializeField] private int id;
@@ -38,7 +37,7 @@ namespace Ju.Environment
         private void RegistInteractables()
         {
             foreach (var it in transform.GetComponentsInChildren<Interactable>())
-                interactables.Add(it);
+                if (!interactables.Contains(it)) interactables.Add(it);
         }
     }
 }
