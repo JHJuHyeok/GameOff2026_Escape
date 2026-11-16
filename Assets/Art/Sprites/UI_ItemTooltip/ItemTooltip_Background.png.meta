@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8c718a7af89d87547948c33dfb01b191
+guid: f7ede732a0e83554d98cec2f42d78be1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6415490079858998490
-    second: backpack_0
+      213: -6216162851720898706
+    second: ItemTooltip_Background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,12 +37,12 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 6, y: 6, z: 6, w: 6}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: backpack_0
+      name: ItemTooltip_Background_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 88
-        height: 96
+        width: 100
+        height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 62346f953c997f6a0800000000000000
-      internalID: -6415490079858998490
+      spriteID: e67523d22d0cbb9a0800000000000000
+      internalID: -6216162851720898706
       vertices: []
       indices: 
       edges: []
@@ -126,7 +126,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ItemTooltip_Background_0: -6216162851720898706
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
