@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8c718a7af89d87547948c33dfb01b191
+guid: 0b156b1f6d56b464199c239acf2ffe0c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6415490079858998490
-    second: backpack_0
+      213: 1283319549956187765
+    second: bag_Backside_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -42,7 +42,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: backpack_0
+      name: bag_Backside_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 88
-        height: 96
+        width: 62
+        height: 67
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 62346f953c997f6a0800000000000000
-      internalID: -6415490079858998490
+      spriteID: 576e374d4544fc110800000000000000
+      internalID: 1283319549956187765
       vertices: []
       indices: 
       edges: []
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bag_Backside_0: 1283319549956187765
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
