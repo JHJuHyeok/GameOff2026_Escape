@@ -39,9 +39,9 @@ public class InventoryView : MonoBehaviour
         BuildCells();
         BuildPreviewRoot();
 
-        inventory.ItemAdded     += CreateView;
-        inventory.ItemMoved     += RefreshView;
-        inventory.ItemRemoved   += ReleaseView;
+        inventory.ItemAdded += CreateView;
+        inventory.ItemMoved += RefreshView;
+        inventory.ItemRemoved += ReleaseView;
 
         foreach (var item in inventory.Items) CreateView(item);
         dragController.Register(this);
@@ -51,9 +51,9 @@ public class InventoryView : MonoBehaviour
     {
         if (Inventory == null) return;
         if (dragController != null) dragController.UnRegister(this);
-        Inventory.ItemAdded     -= CreateView;
-        Inventory.ItemMoved     -= RefreshView;
-        Inventory.ItemRemoved   -= ReleaseView;
+        Inventory.ItemAdded -= CreateView;
+        Inventory.ItemMoved -= RefreshView;
+        Inventory.ItemRemoved -= ReleaseView;
         Inventory = null;
 
         HidePreview();
