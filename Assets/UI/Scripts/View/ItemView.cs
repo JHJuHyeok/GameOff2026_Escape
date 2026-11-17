@@ -9,6 +9,7 @@ public class ItemView : MonoBehaviour, IPoolable
     [SerializeField] private Image tileTemplate;        // 프리팹 안의 비활성 템플릿
     [SerializeField] private RectTransform iconRect;
     [SerializeField] private Image iconImage;
+    [SerializeField] private Image _equippedBadge; // 장착 아이콘
 
     public ItemInstance Item { get; private set; }
     public InventoryView Owner { get; private set; }
@@ -25,11 +26,13 @@ public class ItemView : MonoBehaviour, IPoolable
 
     // ---------- 풀 생명주기 ----------
     public void OnSpawn() { Group.alpha = 1f; Group.blocksRaycasts = true; }
-    public void OnDespawn() { Item = null; Owner = null; }
+    public void OnDespawn() { SetEquipped(false); Item = null; Owner = null; }
 
 
     public void Bind(InventoryView owner, ItemInstance item)
     {
+        SetEquipped(false); // 장착 상태 초기화
+
         Owner = owner;
         Item = item;
         iconImage.sprite = item.Data.Icon;
@@ -63,6 +66,19 @@ public class ItemView : MonoBehaviour, IPoolable
         Group.blocksRaycasts = true;
     }
 
+    // ---------- 장착 상태 표시 ----------
+    public void SetEquipped(bool isEquipped)
+    {
+        if (_equippedBadge == null) return;
+
+        _equippedBadge.gameObject.SetActive(isEquipped);
+
+        if (isEquipped)
+        {
+            _equippedBadge.rectTransform.SetAsLastSibling();
+        }
+    }
+
     // ---------- 실제 점유 칸만 클릭 대상 ----------
     public bool ContainsScreenPoint(Vector2 screenPoint, Camera cam)
     {
@@ -84,6 +100,11 @@ public class ItemView : MonoBehaviour, IPoolable
         }
         for (int i = 0; i < tiles.Count; i++) tiles[i].gameObject.SetActive(i < count);
         iconRect.SetAsLastSibling();
+
+        if (_equippedBadge != null)
+        {
+            _equippedBadge.rectTransform.SetAsLastSibling();
+        }
     }
 
     private void ApplyShape(int rotation)
@@ -107,4 +128,18 @@ public class ItemView : MonoBehaviour, IPoolable
         iconRect.anchoredPosition = Vector2.zero;
         iconRect.localRotation = Quaternion.Euler(0, 0, -90f * rotation);
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("장착 표시/표시")]
+    private void PreviewEquipped()
+    {
+        SetEquipped(true);
+    }
+
+    [ContextMenu("장착 표시/숨김")]
+    private void PreviewUnequipped()
+    {
+        SetEquipped(false);
+    }
+#endif
 }
