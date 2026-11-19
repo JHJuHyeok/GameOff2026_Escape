@@ -4,6 +4,7 @@ using Ju.RuleSystem;
 #if ENABLE_INPUT_SYSTEM
 using MainSystem;
 #endif
+using SH.Project.UI.Checklist;
 
 namespace Ju.Player
 {
@@ -58,6 +59,9 @@ namespace Ju.Player
                 Debug.Log("상호작용 발생");
                 TryInteract();
             }
+
+            if (ReadChecklistPressed() && ChecklistView.Instance != null)
+                ChecklistView.Instance.Toggle();
         }
 
         private void OnDestroy()
@@ -85,7 +89,11 @@ namespace Ju.Player
             var input = InputManager.Instance;
             return input != null && input.InventoryPressed;
         }
-        
+        private static bool ReadChecklistPressed()
+        {
+            var input = InputManager.Instance;
+            return input != null && input.ChecklistPressed;
+        }
 #else
         // Input System이 비활성 중일 때
         private static float ReadMoveX() => Input.GetAxisRaw("Horizontal");

@@ -9,6 +9,8 @@ namespace SH.Project.UI.Checklist
     [DisallowMultipleComponent]
     public sealed class ChecklistView : MonoBehaviour
     {
+        public static ChecklistView Instance { get; private set; }
+
         [SerializeField] private TMP_Text _titleText;
         [SerializeField] private TMP_Text _shortcutText;
         [SerializeField] private CanvasGroup _bodyGroup;
@@ -104,6 +106,7 @@ namespace SH.Project.UI.Checklist
 
         private void Awake()
         {
+            Instance = this;
             IsOpen = _startOpen;
         }
 

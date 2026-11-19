@@ -32,10 +32,11 @@ namespace MainSystem
         [SerializeField] private string attackName      = "Attack";
         [SerializeField] private string inventoryName   = "Inventory";
         [SerializeField] private string interactName    = "Interact";
+        [SerializeField] private string checklistName   = "Checklist";
         [SerializeField] private string pauseName       = "Pause";
 
         private InputActionMap _gameplay, _ui;
-        private InputAction _move, _look, _jump, _attack, _inventory, _interact, _pause;
+        private InputAction _move, _look, _jump, _attack, _inventory, _interact, _checklist, _pause;
 
         public bool GameplayEnabled { get; private set; }
 
@@ -53,6 +54,7 @@ namespace MainSystem
 
         public bool InventoryPressed => _inventory != null && _inventory.WasPressedThisFrame();
         public bool InteractPressed => _interact != null && _interact.WasPressedThisFrame();
+        public bool ChecklistPressed => _checklist != null && _checklist.WasPressedThisFrame();
         public bool PausePressed    => _pause != null && _pause.WasPressedThisFrame();
 
         // ---------------- 초기화 ----------------
@@ -83,8 +85,8 @@ namespace MainSystem
             _attack     = _gameplay.FindAction(attackName, false);
             _interact   = _gameplay.FindAction(interactName, false);
             _pause      = _gameplay.FindAction(pauseName, false);
-
             _inventory  = _ui?.FindAction(inventoryName, false);
+            _checklist  = _ui?.FindAction(checklistName, false);
 
             SetGameplayEnabled(true);
             SetUIEnabled(true);
