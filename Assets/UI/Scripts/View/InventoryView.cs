@@ -24,6 +24,8 @@ public class InventoryView : MonoBehaviour
         rect = (RectTransform)transform;
         // 앵커/피벗 좌상단으로 고정 -> 좌상단 기준 좌표계 쓸 예정
         rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0f, 1f);
+
+        if (dragController == null) dragController = GetComponentInParent<InventoryDragController>();
     }
 
     private void OnDestroy() => Unbind();
