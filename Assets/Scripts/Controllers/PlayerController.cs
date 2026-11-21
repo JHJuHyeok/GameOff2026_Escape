@@ -24,6 +24,8 @@ namespace Ju.Player
         public RoomSpace CurrentSpace { get; set; }
         public PlayerInventory Inventories { get; private set; }
         public GridInventory Inventory { get; private set; }
+        public Interactable CurrentInteraction { get; set; }
+        public bool IsDead => stats.IsDead;
 
         private void Awake()
         {
@@ -56,8 +58,9 @@ namespace Ju.Player
 
             if (ReadInteractPressed())
             {
-                Debug.Log("상호작용 발생");
-                TryInteract();
+                if (CurrentInteraction != null) CurrentInteraction.CancelInteraction();     // 여는 중이면 취소
+                else if (InventoryPanel.IsContainerOpen) InventoryPanel.Instance.CloseContainer();
+                else TryInteract();
             }
 
             if (ReadChecklistPressed() && ChecklistView.Instance != null)

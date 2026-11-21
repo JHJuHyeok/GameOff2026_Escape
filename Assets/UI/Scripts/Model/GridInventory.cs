@@ -158,6 +158,13 @@ public class GridInventory
         ItemAdded?.Invoke(item);
     }
 
+    public bool Contains(ItemData data)
+    {
+        for (int i = 0; i < items.Count; i++)
+            if (items[i].Data == data) return true;
+        return false;
+    }
+
     private void Fill(ItemInstance item)
     {
         foreach (var c in item.Shape.Cells)
