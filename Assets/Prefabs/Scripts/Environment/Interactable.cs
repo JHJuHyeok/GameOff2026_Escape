@@ -31,7 +31,7 @@ namespace Ju.Environment
 
         [Header("Progress")]
         [Tooltip("이 거리보다 멀어지면 취소. 플레이어 interactRadius보다 클 것.")]
-        [SerializeField] private float cancelDistance = 1.5f;
+        [SerializeField] protected float cancelDistance = 1.5f;
         
         private bool used;
         private Coroutine running;
@@ -69,8 +69,26 @@ namespace Ju.Environment
         // ---------------- 진입점 ----------------
         public void Interact(PlayerController player)
         {
-            if (!CanInteract) return;
-            OnInteract(player);
+            if (running != null || !CanInteract) return;
+
+            ItemData usedItem = null;
+            float duration = 0f;
+
+            if (IsGated)
+            {
+                if (!TryResolveRequirment(player, out usedItem, out float ItemTime))
+                {
+                    OnRequirementFailed(player);
+                    return;
+                }
+                duration = ItemTime + ExtraDuration;
+            }
+
+            if (duration <= 0f) { OnInteract(player); return; }
+
+            activePlayer = player;
+            player.CurrentInteraction = this;
+            running = StartCoroutine(Run(player, usedItem, duration));
         }
 
         public void CancelInteraction()
