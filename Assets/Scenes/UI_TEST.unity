@@ -1073,10 +1073,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_MainHUD
       objectReference: {fileID: 0}
-    - target: {fileID: 8743537661416021097, guid: 2c33a47021caf2a4c9006ea9c1162f7f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1278,10 +1274,6 @@ PrefabInstance:
       propertyPath: dragController
       value: 
       objectReference: {fileID: 414705546}
-    - target: {fileID: 6554181672341641587, guid: 706b68ccf9d32d247a6e8fb6a871fc56, type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7810608928465879332, guid: 706b68ccf9d32d247a6e8fb6a871fc56, type: 3}
       propertyPath: dragController
       value: 
@@ -1307,18 +1299,6 @@ PrefabInstance:
     - target: {fileID: 3708278228896944908, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
       propertyPath: m_Name
       value: UI_Checklist
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213906230347585400, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213906230347585400, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4213906230347585400, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5284469636770582840, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
       propertyPath: m_SizeDelta.y
