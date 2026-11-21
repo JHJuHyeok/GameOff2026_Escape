@@ -16,6 +16,7 @@ namespace SH.Project.UI.MainHUD
     [DisallowMultipleComponent]
     public sealed class MainHUDView : MonoBehaviour
     {
+        [SerializeField] private LetterboxFeedbackView _letterbox;
         [SerializeField] private CanvasGroup _hudGroup;
         [SerializeField] private MainHUDAnimation _hudAnimation;
         [SerializeField] private PlayerInfoHUDView _playerInfo;
@@ -58,9 +59,7 @@ namespace SH.Project.UI.MainHUD
         /// <returns>등장 연출을 시작했으면 true입니다.</returns>
         public bool Open()
         {
-            if (State == MainHUDState.Showing || State == MainHUDState.Visible)
-                return false;
-
+            if (State == MainHUDState.Showing || State == MainHUDState.Visible) return false;
             return PlayVisibility(true);
         }
 
@@ -68,9 +67,7 @@ namespace SH.Project.UI.MainHUD
         /// <returns>퇴장 연출을 시작했으면 true입니다.</returns>
         public bool Close()
         {
-            if (State == MainHUDState.Hiding || State == MainHUDState.Hidden)
-                return false;
-
+            if (State == MainHUDState.Hiding || State == MainHUDState.Hidden) return false;
             return PlayVisibility(false);
         }
 
@@ -78,16 +75,14 @@ namespace SH.Project.UI.MainHUD
         /// <param name="state">플레이어 상태 HUD에 적용할 상태입니다.</param>
         public void SetPlayerInfoState(PlayerInfoHUDState state)
         {
-            if (_playerInfo != null)
-                _playerInfo.SetState(state);
+            if (_playerInfo != null) _playerInfo.SetState(state);
         }
 
         /// <summary>퀵 슬롯 HUD의 열림 또는 닫힘 상태를 변경합니다.</summary>
         /// <param name="state">퀵 슬롯 HUD에 적용할 상태입니다.</param>
         public void SetQuickSlotState(QuickSlotHUDState state)
         {
-            if (_quickSlots != null)
-                _quickSlots.SetState(state);
+            if (_quickSlots != null) _quickSlots.SetState(state);
         }
 
         /// <summary>인벤토리의 표시 상태에 맞춰 플레이어 상태와 퀵 슬롯 HUD를 함께 변경합니다.</summary>
@@ -102,8 +97,33 @@ namespace SH.Project.UI.MainHUD
         /// <param name="visible">단축키 안내를 표시하려면 true입니다.</param>
         public void SetShortcutGuideVisible(bool visible)
         {
-            if (_shortcutGuideGroup != null)
-                _shortcutGuideGroup.SetActive(visible);
+            if (_shortcutGuideGroup != null) _shortcutGuideGroup.SetActive(visible);
+        }
+
+        /// <summary>일반 HUD의 표시 상태와 독립적으로 레터박스 심박 연출을 시작합니다.</summary>
+        public bool PlayLetterboxHeartbeat()
+        {
+            if (_letterbox == null) return false;
+
+            return _letterbox.PlayHeartbeat();
+        }
+
+        /// <summary>레터박스 심박 연출을 멈추고 기본 색으로 복원합니다.</summary>
+        public void StopLetterboxHeartbeat()
+        {
+            if (_letterbox != null)
+            {
+                _letterbox.StopHeartbeat();
+            }
+        }
+
+        /// <summary>재생을 다시 시작하지 않고 레터박스 연출 강도를 갱신합니다.</summary>
+        public void SetLetterboxIntensity(float intensity)
+        {
+            if (_letterbox != null)
+            {
+                _letterbox.SetIntensity(intensity);
+            }
         }
 
         #endregion
@@ -222,6 +242,20 @@ namespace SH.Project.UI.MainHUD
         {
             if (Application.isPlaying)
                 SetInventoryOpen(false);
+        }
+
+        [ContextMenu("Main HUD/Play Letterbox Heartbeat")]
+        private void PlayLetterboxHeartbeatForTest()
+        {
+            if (!Application.isPlaying) return;
+            PlayLetterboxHeartbeat();
+        }
+
+        [ContextMenu("Main HUD/Stop Letterbox Heartbeat")]
+        private void StopLetterboxHeartbeatForTest()
+        {
+            if (!Application.isPlaying) return;
+            StopLetterboxHeartbeat();
         }
 
         #endregion
