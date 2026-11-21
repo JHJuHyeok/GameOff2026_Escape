@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 5d7a301946efe9b42ac1a338d3d772d1
+guid: ccc9cde945ff1934a9208e5be4d30b8d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2854594660627585557
-    second: Intro_Logo_TEST_0
+      213: -1942645314456094108
+    second: Game Logo_0
+  - first:
+      213: -582889221523359865
+    second: Game Logo_1
+  - first:
+      213: 2080156025147232272
+    second: Game Logo_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -42,13 +48,13 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -72,10 +78,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Intro_Logo_TEST_0
+      name: Game Logo_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1000
-        height: 1000
+        y: 337
+        width: 1191
+        height: 784
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 51a1f6438be8d9720800000000000000
-      internalID: 2854594660627585557
+      spriteID: 46a744b01665a05e0800000000000000
+      internalID: -1942645314456094108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Game Logo_1
+      rect:
+        serializedVersion: 2
+        x: 1198
+        y: 487
+        width: 31
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78732bf575929e7f0800000000000000
+      internalID: -582889221523359865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Game Logo_2
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 503
+        width: 17
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0101a4c32e23edc10800000000000000
+      internalID: 2080156025147232272
       vertices: []
       indices: 
       edges: []
@@ -125,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -134,7 +184,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Game Logo_0: -1942645314456094108
+      Game Logo_1: -582889221523359865
+      Game Logo_2: 2080156025147232272
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

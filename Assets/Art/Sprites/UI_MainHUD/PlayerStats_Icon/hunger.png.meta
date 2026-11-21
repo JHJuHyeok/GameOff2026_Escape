@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6df1ed65eb795914293d0d66f974531a
+guid: 2ee7d829ec59b0346b630a816afb83d4
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -37,12 +37,12 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -103,9 +103,9 @@ TextureImporter:
       name: hunger_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 32
+        width: 29
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      hunger_0: 431007614271572252
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
