@@ -593,6 +593,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Interaction
       objectReference: {fileID: 0}
+    - target: {fileID: 2906897962621671804, guid: 942dc02338bfea74fb19bbe9761ee104, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306303401014468949, guid: 942dc02338bfea74fb19bbe9761ee104, type: 3}
+      propertyPath: _worldCamera
+      value: 
+      objectReference: {fileID: 1513222959}
+    - target: {fileID: 3306303401014468949, guid: 942dc02338bfea74fb19bbe9761ee104, type: 3}
+      propertyPath: _worldOffset.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3422391553524773851, guid: 942dc02338bfea74fb19bbe9761ee104, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -671,6 +683,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3422391553524773851, guid: 942dc02338bfea74fb19bbe9761ee104, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7539726274826272284, guid: 942dc02338bfea74fb19bbe9761ee104, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1303,6 +1319,18 @@ PrefabInstance:
     - target: {fileID: 3708278228896944908, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
       propertyPath: m_Name
       value: UI_Checklist
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213906230347585400, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213906230347585400, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213906230347585400, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5284469636770582840, guid: a2a3e5bc25724d24ba666b45e7c2eef1, type: 3}
       propertyPath: m_SizeDelta.y

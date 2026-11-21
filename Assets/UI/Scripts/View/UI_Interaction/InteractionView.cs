@@ -18,10 +18,8 @@ namespace SH.Project.UI.Interaction
         [SerializeField] private Camera _worldCamera;
         [SerializeField] private Vector3 _worldOffset = new (0f, 0.5f, 0f);
 
-#if UNITY_EDITOR
         [Header("플레이 모드 테스트")]
         [SerializeField] private Transform _debugTarget;
-#endif
 
         private RectTransform _rectTransform;
         private RectTransform _parentRect;
@@ -31,23 +29,23 @@ namespace SH.Project.UI.Interaction
 
         #region Properties
 
-        //부모 RectTransform과 Canvas, 두 하위 View의 참조가 유효한지 나타냅니다
+        /// <summary>부모 RectTransform과 Canvas, 두 하위 View의 참조가 유효한지 나타냅니다.</summary>
         public bool IsConfigured { get; private set; }
 
         #endregion
 
         #region Public API
 
-        //지정한 월드 대상 위에 전달받은 색으로 상호작용 키를 표시합니다
-        public void ShowPrompt(Transform target, Color color)
+        /// <summary>대상 위에 상호작용 가능 여부에 맞는 키캡 프롬프트를 표시합니다.</summary>
+        public void ShowPrompt(Transform target, bool canInteract)
         {
             if (!IsConfigured) return;
 
-            _promptView.SetColor(color);
+            _promptView.SetInteractable(canInteract);
             SetDisplay(Display.Prompt, target);
         }
 
-        //지정한 월드 대상 위에 0~1 범위의 초기 진행값으로 게이지를 표시합니다
+        /// <summary>대상 위에 0~1 범위의 초기 진행값으로 게이지를 표시합니다.</summary>
         public void ShowProgress(Transform target, float normalizedProgress = 0f)
         {
             if (!IsConfigured) return;
@@ -56,13 +54,13 @@ namespace SH.Project.UI.Interaction
             SetDisplay(Display.Progress, target);
         }
 
-        //진행도 표시 상태에서 게이지의 0~1 진행값을 갱신합니다
+        /// <summary>진행도 표시 상태에서 게이지의 0~1 진행값을 갱신합니다.</summary>
         public void SetProgress(float normalizedProgress)
         {
             if (_display == Display.Progress) _progressView.SetProgress(normalizedProgress);
         }
 
-        //프롬프트와 게이지를 숨기고 추적 대상을 해제합니다
+        /// <summary>프롬프트와 게이지를 숨기고 추적 대상을 해제합니다.</summary>
         public void Hide()
         {
             _display = Display.Hidden;
@@ -80,13 +78,18 @@ namespace SH.Project.UI.Interaction
             _rectTransform = (RectTransform)transform;
             _parentRect = transform.parent as RectTransform;
             Canvas parentCanvas = GetComponentInParent<Canvas>();
-            _canvas = parentCanvas != null ? parentCanvas.rootCanvas : null;
+            if (parentCanvas != null)
+            {
+                _canvas = parentCanvas.rootCanvas;
+            }
 
             IsConfigured = _parentRect != null && _canvas != null && _promptView != null && _promptView.IsConfigured && _progressView != null && _progressView.IsConfigured;
 
             if (!IsConfigured)
             {
+#if UNITY_EDITOR
                 Debug.LogError("InteractionView를 Canvas 아래에 배치하고 Prompt View, Progress View, Filled Image를 확인해 주세요.", this);
+#endif
                 return;
             }
 
@@ -95,7 +98,6 @@ namespace SH.Project.UI.Interaction
 
         private void LateUpdate()
         {
-            // 카메라나 대상이 움직이는 동안 표시 위치를 갱신합니다.
             if (_display != Display.Hidden) RefreshPosition();
         }
 
@@ -108,7 +110,6 @@ namespace SH.Project.UI.Interaction
 
         #region Presentation
 
-        // 표시할 패널과 추적 대상을 설정합니다. 대상이 비어 있으면 전체를 숨깁니다.
         private void SetDisplay(Display display, Transform target)
         {
             if (target == null)
@@ -123,7 +124,6 @@ namespace SH.Project.UI.Interaction
             if (isActiveAndEnabled) RefreshPosition();
         }
 
-        // 대상의 월드 위치에 오프셋을 더하고 화면 좌표를 거쳐 부모 RectTransform의 로컬 좌표로 변환합니다.
         private void RefreshPosition()
         {
             if (_target == null)
@@ -134,8 +134,11 @@ namespace SH.Project.UI.Interaction
 
             if (_worldCamera == null) _worldCamera = Camera.main;
 
-            // Overlay Canvas의 로컬 좌표 변환에는 카메라를 전달하지 않습니다.
-            Camera canvasCamera = _canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : _canvas.worldCamera;
+            Camera canvasCamera = null;
+            if (_canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            {
+                canvasCamera = _canvas.worldCamera;
+            }
 
             if (_worldCamera == null || (_canvas.renderMode != RenderMode.ScreenSpaceOverlay && canvasCamera == null))
             {
@@ -154,7 +157,6 @@ namespace SH.Project.UI.Interaction
             SetVisiblePanels(_display);
         }
 
-        // 현재 표시 모드에 맞춰 프롬프트와 진행도 패널의 표시 여부를 적용합니다.
         private void SetVisiblePanels(Display display)
         {
             _promptView.SetVisible(display == Display.Prompt);
@@ -166,16 +168,16 @@ namespace SH.Project.UI.Interaction
 #if UNITY_EDITOR
         #region Context Menu
 
-        [ContextMenu("테스트/프롬프트 기본색")]
+        [ContextMenu("테스트/상호작용 가능")]
         private void DebugShowPrompt()
         {
-            if (Application.isPlaying && _debugTarget != null) ShowPrompt(_debugTarget, Color.white);
+            if (Application.isPlaying && _debugTarget != null) ShowPrompt(_debugTarget, true);
         }
 
-        [ContextMenu("테스트/프롬프트 회색")]
+        [ContextMenu("테스트/상호작용 불가")]
         private void DebugShowGrayPrompt()
         {
-            if (Application.isPlaying && _debugTarget != null) ShowPrompt(_debugTarget, new Color32(128, 128, 128, 255));
+            if (Application.isPlaying && _debugTarget != null) ShowPrompt(_debugTarget, false);
         }
 
         [ContextMenu("테스트/진행도 표시")]

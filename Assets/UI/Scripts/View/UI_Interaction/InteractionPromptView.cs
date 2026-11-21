@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SH.Project.UI.Interaction
 {
@@ -8,41 +8,72 @@ namespace SH.Project.UI.Interaction
     public sealed class InteractionPromptView : MonoBehaviour
     {
         [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private TMP_Text _keyLabel;
+        [SerializeField] private Image _keyIcon;
+        [SerializeField] private Color _availableColor = Color.white;
+        [SerializeField] private Color _blockedColor = new Color32(128, 128, 128, 255);
 
-        #region Properties
+        /// <summary>표시 그룹과 키캡 이미지가 연결되어 있는지 나타냅니다.</summary>
+        public bool IsConfigured => _canvasGroup != null && _keyIcon != null;
 
-        //CanvasGroup과 키 라벨이 연결되어 있는지 나타냅니다
-        public bool IsConfigured => _canvasGroup != null && _keyLabel != null;
-
-        #endregion
-
-        #region Public API
-
-        //전달받은 색을 상호작용 키 라벨에 적용합니다
-        public void SetColor(Color color)
-        {
-            _keyLabel.color = color;
-        }
-
-        //CanvasGroup의 알파를 변경해 프롬프트를 표시하거나 숨깁니다
+        /// <summary>키캡 프롬프트를 표시하거나 숨깁니다.</summary>
         public void SetVisible(bool visible)
         {
-            float alpha = visible ? 1f : 0f;
-            if (_canvasGroup.alpha != alpha) _canvasGroup.alpha = alpha;
+            if (_canvasGroup == null) return;
+            float alpha = 0f;
+
+            if (visible)
+            {
+                alpha = 1f;
+            }
+            if (_canvasGroup.alpha != alpha)
+            {
+                _canvasGroup.alpha = alpha;
+            }
         }
 
-        #endregion
+        /// <summary>상호작용 가능 여부에 따라 인스펙터에 지정된 키캡 색상을 적용합니다.</summary>
+        public void SetInteractable(bool canInteract)
+        {
+            if (_keyIcon == null) return;
+            if (canInteract)
+            {
+                _keyIcon.color = _availableColor;
+            }
+            else
+            {
+                _keyIcon.color = _blockedColor;
+            }
+        }
 
-        #region Unity Messages
-
-        // 컴포넌트를 추가하거나 Reset할 때 CanvasGroup과 하위 키 라벨을 찾습니다.
         private void Reset()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
-            _keyLabel = GetComponentInChildren<TMP_Text>(true);
+            _keyIcon = GetComponentInChildren<Image>(true);
         }
 
-        #endregion
+#if UNITY_EDITOR
+        [ContextMenu("Prompt/Show Available")]
+        private void ShowAvailableForTest()
+        {
+            if (!Application.isPlaying || !IsConfigured) return;
+            SetInteractable(true);
+            SetVisible(true);
+        }
+
+        [ContextMenu("Prompt/Show Blocked")]
+        private void ShowBlockedForTest()
+        {
+            if (!Application.isPlaying || !IsConfigured) return;
+            SetInteractable(false);
+            SetVisible(true);
+        }
+
+        [ContextMenu("Prompt/Hide")]
+        private void HideForTest()
+        {
+            if (!Application.isPlaying || !IsConfigured) return;
+            SetVisible(false);
+        }
+#endif
     }
 }
