@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9c5067d749518e14888cfec6b96b4420
+guid: 997fae6ac9996364ea6540943dde79ec
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -37,12 +37,12 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -103,9 +103,9 @@ TextureImporter:
       name: stamina_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 0
-        width: 32
+        width: 28
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      stamina_0: -9088952373934807646
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
