@@ -12,6 +12,8 @@ namespace SH.Project.UI.Interaction
             Prompt,
             Progress
         }
+        /// <summary>현재 씬에서 사용하는 단일 상호작용 UI를 제공합니다.</summary>
+        public static InteractionView Instance { get; private set; }
 
         [SerializeField] private InteractionPromptView _promptView;
         [SerializeField] private InteractionProgressView _progressView;
@@ -75,6 +77,14 @@ namespace SH.Project.UI.Interaction
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
             _rectTransform = (RectTransform)transform;
             _parentRect = transform.parent as RectTransform;
             Canvas parentCanvas = GetComponentInParent<Canvas>();
@@ -104,6 +114,14 @@ namespace SH.Project.UI.Interaction
         private void OnDisable()
         {
             if (IsConfigured) SetVisiblePanels(Display.Hidden);
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         #endregion
