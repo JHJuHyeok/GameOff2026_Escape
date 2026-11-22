@@ -11,7 +11,7 @@ namespace Ju.Environment
     public class ContainerObject : Interactable
     {
         [SerializeField] private Vector2Int gridSize = new(4, 3);
-        [Tooltip("처음 열리는 동안 채움")]
+        [Tooltip("등장 가능한 아이템 목록. 처음 열리는 동안 채움")]
         [SerializeField] private List<LootEntry> loot = new();
 
         [Header("Search")]

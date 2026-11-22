@@ -712,8 +712,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ju.Environment.ContainerObject
   id: 26
   singleUse: 1
+  requirements: []
+  cancelDistance: 1.5
   gridSize: {x: 4, y: 3}
-  loot: []
+  loot:
+  - item: {fileID: 0}
+    chance: 0
+  searchDuration: 3
+  gateOnlyFirstOpen: 1
 --- !u!1 &370308100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,6 +2585,7 @@ MonoBehaviour:
   attackName: Attack
   inventoryName: Inventory
   interactName: Interact
+  checklistName: Checklist
   pauseName: Pause
 --- !u!4 &1753561751
 Transform:
@@ -2875,6 +2882,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ju.Environment.TeleportObject
   id: 23
   singleUse: 1
+  requirements: []
+  cancelDistance: 1.5
   destination: {fileID: 866647371}
   destinationFloor: 1
 --- !u!1660057539 &9223372036854775807
