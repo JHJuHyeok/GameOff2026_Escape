@@ -89,6 +89,7 @@ namespace Ju.Environment
             public int Group;
             public int Floor;
             public bool IsStair;
+            public bool IsStart;
             // 아직 연결되지 않은 TeleportObject 인덱스
             public readonly List<int> FreeWalls = new();
             public readonly List<int> FreeUps = new();
@@ -133,6 +134,7 @@ namespace Ju.Environment
                 Debug.LogWarning("[MapGenerator] 맵이 이미 생성되었습니다.", this);
                 return false;
             }
+            Clear();
 
             portCache.Clear();
             startPrefab = ValidateStart();
@@ -172,7 +174,12 @@ namespace Ju.Environment
         /// 생성된 맵 제거. 게임 종료/메뉴 복귀 등에서만 사용. (풀링 사용 시 PoolManager로 반환)
         public void Clear()
         {
-            if (root != null)
+            if (root == null)
+            {
+                var leftover = transform.Find("GeneratedMap");
+                if (leftover != null) root = leftover;
+            }
+            else
             {
                 if (usedPool && PoolManager.Instance != null)
                     foreach (var r in rooms)
@@ -256,6 +263,11 @@ namespace Ju.Environment
             foreach (var prefab in stairRoomPrefabs)
             {
                 if (prefab == null) continue;
+                if (prefab == startPrefab)
+                {
+                    Debug.LogWarning("[MapGenerator] 시작 방 프리팹이 stairRoomPrefabs에도 등록되어 있어 제외합니다.", prefab);
+                    continue;
+                }
                 var info = Inspect(prefab);
                 if (info.Ups.Count + info.Downs.Count == 0)
                 {
@@ -297,14 +309,14 @@ namespace Ju.Environment
             int lastFloor = firstFloor + groupCount * floorsPerGroup - 1;
 
             var bag = new List<RoomSpace>(pool);
-            ListExtensions.Shuffle(bag);
+            ListExtensions.Shuffle(bag, rng);
 
             RoomSpace Draw()
             {
                 if (bag.Count == 0 && allowDuplicates && pool.Count > 0)
                 {
                     bag.AddRange(pool);
-                    ListExtensions.Shuffle(bag);
+                    ListExtensions.Shuffle(bag, rng);
                 }
                 if (bag.Count == 0) return null;
                 var r = bag[^1];
@@ -355,7 +367,9 @@ namespace Ju.Environment
 
                 if (g == 0 && startPrefab != null)
                 {
-                    list.Add(NewNode(startPrefab, g, firstFloor, false));
+                    var startNode = NewNode(startPrefab, g, firstFloor, false);
+                    startNode.IsStart = true;
+                    list.Add(startNode);
                     want--;
                 }
 
@@ -385,8 +399,8 @@ namespace Ju.Environment
                 var downs = new List<(Node node, int port)>();
                 foreach (var n in stairsByFloor[f]) foreach (int p in n.FreeUps) ups.Add((n, p));
                 foreach (var n in stairsByFloor[f + 1]) foreach (int p in n.FreeDowns) downs.Add((n, p));
-                ListExtensions.Shuffle(ups);
-                ListExtensions.Shuffle(downs);
+                ListExtensions.Shuffle(ups, rng);
+                ListExtensions.Shuffle(downs, rng);
 
                 int count = Math.Min(ups.Count, downs.Count);
                 for (int i = 0; i < count; i++)
@@ -432,7 +446,7 @@ namespace Ju.Environment
                         {
                             var a = floorNodes[i];
                             var b = floorNodes[j];
-                            if (a.FreeWalls.Count == 0 || b.FreeWalls.Count == 0) continue;
+                            if (!CanConnect(a, b)) continue;
                             if (linked.Contains(PairKey(a, b))) continue;
                             if (rng.NextDouble() >= extraLinkChance) continue;
                             ConnectDoors(a, b, rng, edges, linked);
@@ -509,12 +523,12 @@ namespace Ju.Environment
             if (a.FreeRights.Count > 0 && b.FreeLefts.Count > 0) options.Add((a.FreeRights, b.FreeLefts));
 
             var (fa, fb) = options[rng.Next(options.Count)];
-            int ia = rng.Next(a.FreeWalls.Count);
-            int ib = rng.Next(b.FreeWalls.Count);
-            int pa = a.FreeWalls[ia];
-            int pb = b.FreeWalls[ib];
-            a.FreeWalls.RemoveAt(ia);
-            b.FreeWalls.RemoveAt(ib);
+            int ia = rng.Next(fa.Count);
+            int ib = rng.Next(fb.Count);
+            int pa = fa[ia];
+            int pb = fb[ib];
+            fa.RemoveAt(ia);
+            fb.RemoveAt(ib);
             AddEdge(a, pa, b, pb, false, edges, linked);
         }
 
@@ -538,10 +552,10 @@ namespace Ju.Environment
                 n.Instance.name = $"{n.Prefab.name}_F{n.Floor}";
                 n.Instance.SetFloor(n.Floor);
                 rooms.Add(n.Instance);
-                if (n.Prefab == startPrefab) StartRoom = n.Instance;
+                if (n.IsStart) StartRoom = n.Instance;
             }
 
-            Layout(plan.Nodes);
+            Layout(rng, plan.Nodes);
 
             // 텔레포터 초기화 (풀링 재사용 대비: 전부 켜고 연결 해제)
             var ports = new Dictionary<Node, TeleportObject[]>();
@@ -586,7 +600,7 @@ namespace Ju.Environment
         }
 
         /// 층마다 한 줄로 배치. 같은 층의 방들은 바닥 정렬, 가로 중앙 정렬.
-        private void Layout(List<Node> nodes)
+        private void Layout(System.Random rng, List<Node> nodes)
         {
             float maxHeight = 0f;
             foreach (var n in nodes) maxHeight = Mathf.Max(maxHeight, n.Instance.Size.y);
@@ -614,7 +628,7 @@ namespace Ju.Environment
             foreach (var kv in rows)
             {
                 var row = kv.Value;
-                ListExtensions.Shuffle(row);
+                ListExtensions.Shuffle(row, rng);
 
                 float totalWidth = gapX * (row.Count - 1);
                 foreach (var n in row) totalWidth += n.Instance.Size.x;
@@ -722,8 +736,8 @@ namespace Ju.Environment
                 if (visited.Count != kv.Value.Count) Fail($"{kv.Key}층: 문으로 연결되지 않은 방이 있음 ({visited.Count}/{kv.Value.Count})", this);
             }
 
-            if (startPrefab != null && (StartRoom == null || StartRoom.Floor != firstFloor))
-                Fail("시작 방이 첫 층에 배치되지 않음", this);
+            if (startRoomPrefab != null && StartRoom != null && StartRoom.Floor != firstFloor)
+                Fail($"시작 방이 {StartRoom.Floor}층에 배치됨 (기대: {firstFloor}층)", this);
 
             Debug.Log($"[Validate] 완료: 방 {rooms.Count}개, 오류 {errors}건");
             return errors == 0;

@@ -245,7 +245,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -274,6 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ju.Environment.RoomSpace
   id: 1001
-  floor: 0
+  floor: 1
   fallbackSize: {x: 16, y: 9}
   spawnPoint: {fileID: 5317810448062949514}
