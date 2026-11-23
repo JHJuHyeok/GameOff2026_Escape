@@ -342,10 +342,11 @@ namespace Ju.Environment
             var stairsByFloor = new Dictionary<int, List<Node>>();
 
             // 1. ¸ðµç Ãþ¿¡ °è´Ü ¹æ ¹èÄ¡
+            bool loop = lastFloor > firstFloor;
             for (int f = firstFloor; f <= lastFloor; f++)
             {
                 int g = (f - firstFloor) / floorsPerGroup;
-                var picks = PickStairPrefabs(rng, stairPool, f < lastFloor, f > firstFloor);
+                var picks = PickStairPrefabs(rng, stairPool, loop, loop);
                 var list = new List<Node>();
                 foreach (var prefab in picks)
                 {
@@ -393,23 +394,28 @@ namespace Ju.Environment
             void Union(Node a, Node b) => uf[Find(a.Index)] = Find(b.Index);
 
             // 3. °è´Ü ¿¬°á
-            for (int f = firstFloor; f < lastFloor; f++)
+            if (loop)
             {
-                var ups = new List<(Node node, int port)>();
-                var downs = new List<(Node node, int port)>();
-                foreach (var n in stairsByFloor[f]) foreach (int p in n.FreeUps) ups.Add((n, p));
-                foreach (var n in stairsByFloor[f + 1]) foreach (int p in n.FreeDowns) downs.Add((n, p));
-                ListExtensions.Shuffle(ups, rng);
-                ListExtensions.Shuffle(downs, rng);
-
-                int count = Math.Min(ups.Count, downs.Count);
-                for (int i = 0; i < count; i++)
+                for (int f = firstFloor; f <= lastFloor; f++)
                 {
-                    var (a, pa) = ups[i];
-                    var (b, pb) = downs[i];
-                    a.FreeUps.Remove(pa);
-                    b.FreeDowns.Remove(pb);
-                    AddEdge(a, pa, b, pb, true, edges, linked);
+                    int next = f < lastFloor ? f + 1 : firstFloor;
+
+                    var ups = new List<(Node node, int port)>();
+                    var downs = new List<(Node node, int port)>();
+                    foreach (var n in stairsByFloor[f]) foreach (int p in n.FreeUps) ups.Add((n, p));
+                    foreach (var n in stairsByFloor[next]) foreach (int p in n.FreeDowns) downs.Add((n, p));
+                    ListExtensions.Shuffle(ups, rng);
+                    ListExtensions.Shuffle(downs, rng);
+
+                    int count = Math.Min(ups.Count, downs.Count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        var (a, pa) = ups[i];
+                        var (b, pb) = downs[i];
+                        a.FreeUps.Remove(pa);
+                        b.FreeDowns.Remove(pb);
+                        AddEdge(a, pa, b, pb, true, edges, linked);
+                    }
                 }
             }
 
@@ -683,9 +689,15 @@ namespace Ju.Environment
                     switch (t.Role)
                     {
                         case TeleportRole.StairUp:
-                            if (other.Floor != r.Floor + 1) Fail($"{r.name}: StairUpÀÌ {other.Floor}ÃþÀ¸·Î ¿¬°áµÊ", t); break;
+                            {
+                                int expectUp = r.Floor < lastFloor ? r.Floor + 1 : firstFloor;
+                                if (other.Floor != r.Floor + 1) Fail($"{r.name}: StairUpÀÌ {other.Floor}ÃþÀ¸·Î ¿¬°áµÊ", t); break;
+                            }
                         case TeleportRole.StairDown:
-                            if (other.Floor != r.Floor - 1) Fail($"{r.name}: StairDownÀÌ {other.Floor}ÃþÀ¸·Î ¿¬°áµÊ", t); break;
+                            {
+                                int expectDown = r.Floor > firstFloor ? r.Floor - 1 : lastFloor;
+                                if (other.Floor != r.Floor - 1) Fail($"{r.name}: StairDownÀÌ {other.Floor}ÃþÀ¸·Î ¿¬°áµÊ", t); break;
+                            }
                         default:
                             if (other.Floor != r.Floor) Fail($"{r.name}: ¹®ÀÌ ´Ù¸¥ Ãþ({other.Floor})À¸·Î ¿¬°áµÊ", t);
                             if (ot != null &&
@@ -716,8 +728,9 @@ namespace Ju.Environment
                         up |= t.Role == TeleportRole.StairUp;
                         down |= t.Role == TeleportRole.StairDown;
                     }
-                if (kv.Key < lastFloor && !up) Fail($"{kv.Key}Ãþ: À§Ãþ °è´Ü ¾øÀ½", this);
-                if (kv.Key > firstFloor && !down) Fail($"{kv.Key}Ãþ: ¾Æ·¡Ãþ °è´Ü ¾øÀ½", this);
+                bool loop = lastFloor > firstFloor;
+                if (loop && !up) Fail($"{kv.Key}Ãþ: À§Ãþ °è´Ü ¾øÀ½", this);
+                if (loop && !down) Fail($"{kv.Key}Ãþ: ¾Æ·¡Ãþ °è´Ü ¾øÀ½", this);
 
                 // ¹®¸¸À¸·Î °°Àº ÃþÀÌ ÇÏ³ªÀÇ ÁýÇÕÀÎÁö (BFS)
                 var visited = new HashSet<RoomSpace> { kv.Value[0] };
