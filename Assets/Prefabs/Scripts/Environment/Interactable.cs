@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SH.Project.UI.Interaction;
 using Ju.RuleSystem;
 using Ju.Player;
 
@@ -140,11 +141,37 @@ namespace Ju.Environment
             Debug.Log($"[{name}] 필요한 아이템: {string.Join(", ", names)}", this);
         }
 
-        // ---------------- 진행 ----------------
+        // ---------------- 진행 ---------------- //기존 InteractionView.Instance로 연결을 위해서 잠시 주석처리
+        //private IEnumerator Run(PlayerController player, ItemData usedItem, float duration)
+        //{
+        //    var view = InteractionProgressView.Instance;
+        //    if (view != null) view.Show();
+
+        //    float elapsed = 0f;
+        //    while (elapsed < duration)
+        //    {
+        //        if (!IsStillValid(player, usedItem))
+        //        {
+        //            CancelInteraction();
+        //            yield break;
+        //        }
+
+        //        elapsed += Time.deltaTime;
+        //        if (view != null) view.SetProgress(elapsed / duration);
+        //        yield return null;
+        //    }
+
+        //    EndProgress();
+        //    OnInteract(player);         // 완료 시점에 결과 실행 (규칙 이벤트도 이때 발행)
+        //}
+
         private IEnumerator Run(PlayerController player, ItemData usedItem, float duration)
         {
-            var view = InteractionProgressView.Instance;
-            if (view != null) view.Show();
+            var view = InteractionView.Instance;
+            if (view != null)
+            {
+                view.ShowProgress(transform);
+            }
 
             float elapsed = 0f;
             while (elapsed < duration)
@@ -156,12 +183,17 @@ namespace Ju.Environment
                 }
 
                 elapsed += Time.deltaTime;
-                if (view != null) view.SetProgress(elapsed / duration);
+
+                if (view != null)
+                {
+                    view.SetProgress(elapsed / duration);
+                }
+
                 yield return null;
             }
 
             EndProgress();
-            OnInteract(player);         // 완료 시점에 결과 실행 (규칙 이벤트도 이때 발행)
+            OnInteract(player);
         }
 
         private bool IsStillValid(PlayerController player, ItemData usedItem)
@@ -173,15 +205,33 @@ namespace Ju.Environment
             return (p - Col.ClosestPoint(p)).sqrMagnitude <= cancelDistance * cancelDistance;
         }
 
+        //private void EndProgress() //기존 InteractionView.Instance로 연결을 위해서 잠시 주석처리
+        //{
+        //    running = null;
+        //    if (activePlayer != null && activePlayer.CurrentInteraction == this)
+        //        activePlayer.CurrentInteraction = null;
+        //    activePlayer = null;
+
+        //    var view = InteractionProgressView.Instance;
+        //    if (view != null) view.Hide();
+        //}
+
         private void EndProgress()
         {
             running = null;
+
             if (activePlayer != null && activePlayer.CurrentInteraction == this)
+            {
                 activePlayer.CurrentInteraction = null;
+            }
+
             activePlayer = null;
 
-            var view = InteractionProgressView.Instance;
-            if (view != null) view.Hide();
+            var view = InteractionView.Instance;
+            if (view != null)
+            {
+                view.Hide();
+            }
         }
 
         /// 규칙 시스템에 의한 상호작용 이벤트 발행. 발행 시점은 파생 클래스에서 작성
