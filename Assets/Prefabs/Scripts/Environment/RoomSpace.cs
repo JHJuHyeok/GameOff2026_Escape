@@ -60,7 +60,7 @@ namespace Ju.Environment
         public void ApplyRandomContainers(System.Random rng)
         {
             var containers = FindContainers();
-            foreach (var c in containers) c.gameObject.SetActive(true);
+            foreach (var c in containers) c.enabled = true;
             if (containers.Length <= MinActiveContainers) return;
 
             int activeCount = rng.Next(MinActiveContainers, containers.Length + 1);
@@ -72,7 +72,7 @@ namespace Ju.Environment
                 (containers[i], containers[j]) = (containers[j], containers[i]);
             }
             for (int i = activeCount; i < containers.Length; i++)
-                containers[i].gameObject.SetActive(false);
+                containers[i].enabled = false;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
