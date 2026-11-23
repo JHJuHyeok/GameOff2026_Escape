@@ -962,9 +962,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ju.Environment.RoomSpace
   id: 20015
   floor: 1
-  interactables:
-  - {fileID: 2133402512}
-  - {fileID: 316678645}
+  fallbackSize: {x: 16, y: 9}
+  spawnPoint: {fileID: 0}
 --- !u!212 &695570898
 SpriteRenderer:
   serializedVersion: 2
@@ -2884,8 +2883,10 @@ MonoBehaviour:
   singleUse: 1
   requirements: []
   cancelDistance: 1.5
+  role: 0
   destination: {fileID: 866647371}
   destinationFloor: 1
+  arrivalPoint: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

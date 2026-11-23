@@ -640,6 +640,115 @@ namespace Ju.Environment
             roomsPerGroup.y = Mathf.Max(roomsPerGroup.x, roomsPerGroup.y);
         }
 
+        [ContextMenu("검증 (테스트용)")]
+        private bool ValidateMap()
+        {
+            int errors = 0;
+            void Fail(string msg, UnityEngine.Object ctx) { errors++; Debug.LogError("[Validate] " + msg, ctx); }
+            bool IsStair(TeleportRole r) => r == TeleportRole.StairUp || r == TeleportRole.StairDown;
+
+            int lastFloor = firstFloor + groupCount * floorsPerGroup - 1;
+            var byFloor = new Dictionary<int, List<RoomSpace>>();
+
+            foreach (var r in rooms)
+            {
+                if (!byFloor.TryGetValue(r.Floor, out var list)) byFloor[r.Floor] = list = new List<RoomSpace>();
+                list.Add(r);
+
+                int linkedCount = 0;
+                foreach (var t in r.FindTeleporters())
+                {
+                    if (t.gameObject.activeSelf != t.IsLinked) Fail($"{r.name}/{t.name}: 활성 상태와 연결 상태 불일치", t);
+                    if (!t.IsLinked) continue;
+                    linkedCount++;
+
+                    var other = t.Destination.GetComponentInParent<RoomSpace>();
+                    var ot = t.Destination.GetComponentInParent<TeleportObject>();
+                    if (other == null) { Fail($"{r.name}/{t.name}: 목적지 방을 찾을 수 없음", t); continue; }
+
+                    switch (t.Role)
+                    {
+                        case TeleportRole.StairUp:
+                            if (other.Floor != r.Floor + 1) Fail($"{r.name}: StairUp이 {other.Floor}층으로 연결됨", t); break;
+                        case TeleportRole.StairDown:
+                            if (other.Floor != r.Floor - 1) Fail($"{r.name}: StairDown이 {other.Floor}층으로 연결됨", t); break;
+                        default:
+                            if (other.Floor != r.Floor) Fail($"{r.name}: 문이 다른 층({other.Floor})으로 연결됨", t);
+                            if (ot != null &&
+                                ((t.Role == TeleportRole.LeftSide && ot.Role != TeleportRole.RightSide) ||
+                                 (t.Role == TeleportRole.RightSide && ot.Role != TeleportRole.LeftSide) ||
+                                 (t.Role == TeleportRole.WallDoor && ot.Role != TeleportRole.WallDoor)))
+                                Fail($"{r.name}/{t.name}: 문 종류 규칙 위반 ({t.Role} → {ot.Role})", t);
+                            break;
+                    }
+                }
+                if (linkedCount == 0 && rooms.Count > 1) Fail($"{r.name}: 연결된 텔레포터가 없음", r);
+
+                var containers = r.FindContainers();
+                int active = 0;
+                foreach (var c in containers) if (c.gameObject.activeSelf) active++;
+                if (containers.Length >= 3 && active < 2) Fail($"{r.name}: ContainerObject {containers.Length}개 중 {active}개만 활성", r);
+                if (containers.Length < 3 && active != containers.Length) Fail($"{r.name}: ContainerObject가 3개 미만인데 비활성화됨", r);
+            }
+
+            foreach (var kv in byFloor)
+            {
+                // 계단 존재
+                bool up = false, down = false;
+                foreach (var r in kv.Value)
+                    foreach (var t in r.FindTeleporters())
+                    {
+                        if (!t.IsLinked) continue;
+                        up |= t.Role == TeleportRole.StairUp;
+                        down |= t.Role == TeleportRole.StairDown;
+                    }
+                if (kv.Key < lastFloor && !up) Fail($"{kv.Key}층: 위층 계단 없음", this);
+                if (kv.Key > firstFloor && !down) Fail($"{kv.Key}층: 아래층 계단 없음", this);
+
+                // 문만으로 같은 층이 하나의 집합인지 (BFS)
+                var visited = new HashSet<RoomSpace> { kv.Value[0] };
+                var queue = new Queue<RoomSpace>();
+                queue.Enqueue(kv.Value[0]);
+                while (queue.Count > 0)
+                {
+                    var cur = queue.Dequeue();
+                    foreach (var t in cur.FindTeleporters())
+                    {
+                        if (!t.IsLinked || IsStair(t.Role)) continue;
+                        var o = t.Destination.GetComponentInParent<RoomSpace>();
+                        if (o != null && visited.Add(o)) queue.Enqueue(o);
+                    }
+                }
+                if (visited.Count != kv.Value.Count) Fail($"{kv.Key}층: 문으로 연결되지 않은 방이 있음 ({visited.Count}/{kv.Value.Count})", this);
+            }
+
+            if (startPrefab != null && (StartRoom == null || StartRoom.Floor != firstFloor))
+                Fail("시작 방이 첫 층에 배치되지 않음", this);
+
+            Debug.Log($"[Validate] 완료: 방 {rooms.Count}개, 오류 {errors}건");
+            return errors == 0;
+        }
+
+        [ContextMenu("반복 테스트 (시드 200회)")]
+        private void StressTest()
+        {
+            bool prevRandom = useRandomSeed; int prevSeed = seed;
+            useRandomSeed = false;
+            int genFail = 0, invalid = 0;
+
+            for (int i = 0; i < 200; i++)
+            {
+                seed = i;
+                Clear();
+                if (!Generate()) { genFail++; Debug.LogWarning($"[Stress] seed {i}: 생성 실패"); continue; }
+                if (!ValidateMap()) { invalid++; Debug.LogWarning($"[Stress] seed {i}: 검증 실패"); }
+            }
+
+            Clear();
+            useRandomSeed = prevRandom; seed = prevSeed;
+            Debug.Log($"[Stress] 생성 실패 {genFail} / 검증 실패 {invalid} / 총 200");
+        }
+
         private void OnDrawGizmosSelected()
         {
             foreach (var (a, b, stair) in debugLinks)

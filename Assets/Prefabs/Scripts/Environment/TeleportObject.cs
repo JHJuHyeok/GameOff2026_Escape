@@ -16,6 +16,7 @@ namespace Ju.Environment
 
         public TeleportRole Role => role;
         public Transform ArrivalPoint => arrivalPoint != null ? arrivalPoint : transform;
+        public Transform Destination => destination;
         public bool IsLinked => destination != null;
 
         public void Link(Transform dest, int floor)
