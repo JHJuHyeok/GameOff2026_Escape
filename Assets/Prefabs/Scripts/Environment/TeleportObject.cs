@@ -3,14 +3,18 @@ using Ju.Player;
 
 namespace Ju.Environment
 {
+    public enum TeleportRole { WallDoor, StairUp, StairDown, LeftSide, RightSide }
+
     public class TeleportObject : Interactable
     {
+        [SerializeField] private TeleportRole role = TeleportRole.WallDoor;
         [SerializeField] private Transform destination;
         [SerializeField] private int destinationFloor;
 
         [Tooltip("이 텔레포터로 도착할 때 플레이어가 놓일 위치. null일 경우 자기 자신의 위치.")]
         [SerializeField] private Transform arrivalPoint;
 
+        public TeleportRole Role => role;
         public Transform ArrivalPoint => arrivalPoint != null ? arrivalPoint : transform;
         public bool IsLinked => destination != null;
 
@@ -20,7 +24,7 @@ namespace Ju.Environment
             destinationFloor = floor;
         }
 
-        public void UnLink()
+        public void Unlink()
         {
             destination = null;
             destinationFloor = 0;
