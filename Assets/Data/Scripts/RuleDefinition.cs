@@ -25,7 +25,7 @@ namespace Ju.RuleSystem
         [Header("논리")]
         public RuleMode mode;
         public RuleVeracity veracity;
-        [Tooltip("Prohibition: 금지된 행동 / Obligation: 의무가 발생하는 계기")]
+        [Tooltip("Prohibition: 금지된 행동 / Obligation: 발동 계기")]
         public RuleTrigger trigger = new();
         [Tooltip("Obligation 전용: 트리거 이후 수행해야 하는 행동")]
         public RuleTrigger response = new();
