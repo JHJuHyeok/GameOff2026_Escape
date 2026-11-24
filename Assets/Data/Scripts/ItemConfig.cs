@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 using MainSystem;
 
-[CreateAssetMenu(fileName = "Configs/ItemConfig", menuName = "Scriptable Objects/ItemConfig")]
+[CreateAssetMenu(fileName = "Configs/ItemConfig", menuName = "Configs/ItemConfig")]
 public class ItemConfig : ScriptableObject
 {
     public float cellSize = 64f;
