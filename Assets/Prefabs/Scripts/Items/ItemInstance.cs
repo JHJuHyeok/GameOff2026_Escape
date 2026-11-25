@@ -13,12 +13,17 @@ public class ItemInstance
     public ItemShape Shape => Data.GetShape(Rotation);
     public int Width => Shape.Width;
     public int Height => Shape.Height;
+    // 접근용 프로퍼티
+    public float Weight { get; internal set; }
     public int Durability { get; internal set; }
+    public int Price { get; internal set; }
 
     public ItemInstance(ItemData data, int rotation = 0)
     { 
         Data = data;
-        Durability = data.durability;
+        Weight = data.Weight;
+        Durability = data.Durability;
+        Price = data.Price;
         int n = data.RotationCount;
         Rotation = ((rotation % n) + n) % n;
     }

@@ -10,7 +10,8 @@ public class ItemData : ScriptableObject
     public string ItemName;
     public Sprite Icon;
     [Min(0f)] public float Weight = 1f;     // 무게
-    [Min(0)] public int durability = 1;     // 내구도
+    [Min(0)] public int Durability = 1;     // 내구도
+    [Min(1)] public int Price = 1;          // 가격
     public ItemType type;
     public string description;
 
