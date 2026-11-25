@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Ju.RuleSystem;
 
 public enum ItemType { Expendable, Use, Luxury }
 
@@ -19,6 +20,11 @@ public class ItemData : ScriptableObject
     [NonSerialized] private ItemShape[] rotations;  // 0˚, 90˚, 180˚, 270˚
     [NonSerialized] private int period;             // 모양이 반복되는 회전 주기
 
+    [Header("사용 효과 (Type = Use)")]
+    public RuleEffect[] useEffects;
+
+    public bool IsUsable => type == ItemType.Use && useEffects != null && useEffects.Length > 0;
+
     private void OnEnable() => rotations = null;
 
     private void OnValidate()
@@ -30,6 +36,9 @@ public class ItemData : ScriptableObject
         var s = Shape.ToShape();
         if (s == null) Debug.LogWarning($"[{name}] 채워진 칸이 없습니다. 1x1로 처리됩니다.", this);
         else if (!s.IsConnected()) Debug.LogWarning($"[{name}] 모양이 서로 떨어진 조각을 포함합니다.", this);
+
+        if (type == ItemType.Use && (useEffects == null || useEffects.Length == 0))
+            Debug.LogWarning($"[{name}] Use 타입인데 효과가 비어 있습니다.", this);
     }
 
     // 회전 변경점에 따른 형태 수 / 정사각형 = 1, 직사각형 = 2, 그 외 = 4

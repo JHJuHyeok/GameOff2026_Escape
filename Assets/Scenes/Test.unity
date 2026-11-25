@@ -1047,7 +1047,7 @@ Transform:
   m_GameObject: {fileID: 851870550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 548.42896, y: 222.53, z: 0}
+  m_LocalPosition: {x: 569.3235, y: 222.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1367,10 +1367,10 @@ MonoBehaviour:
   - {fileID: 5561453617194706020, guid: ae12a63a578158344bd1f981818d5bfa, type: 3}
   - {fileID: 1151145408290214369, guid: fa1258651b1d6b3418f963715b7021e2, type: 3}
   allowDuplicates: 1
-  groupCount: 1
+  groupCount: 2
   floorsPerGroup: 3
   firstFloor: 1
-  roomsPerGroup: {x: 10, y: 13}
+  roomsPerGroup: {x: 10, y: 11}
   extraLinkChance: 0.15
   maxAttempts: 30
   viewCamera: {fileID: 37445213}

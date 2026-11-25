@@ -19,7 +19,7 @@ MonoBehaviour:
   type: 0
   description: 
   Shape:
-    Width: 1
+    Width: 2
     Height: 1
-    Filled: 01
+    Filled: 0101
   CanRotate: 1

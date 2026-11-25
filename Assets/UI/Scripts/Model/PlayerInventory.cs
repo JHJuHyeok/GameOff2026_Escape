@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Ju.Player;
+using Ju.RuleSystem;
 
 /// <summary>플레이어가 가진 분할된 인벤토리 컨테이너</summary>
 public class PlayerInventory
@@ -8,11 +10,13 @@ public class PlayerInventory
     private readonly IPlacementRule weightRule;
     private float totalWeight;
     private float maxWeight;
+    private PlayerStats stats;
 
     public IReadOnlyList<GridInventory> Inventories => inventories;
 
     public event Action<GridInventory> InventoryAdded;
     public event Action<GridInventory> InventoryRemoved;
+    public event Action<ItemInstance> ItemUsed;
     public event Action WeightChanged;
 
     // ---------------- 무게 ----------------
@@ -31,6 +35,25 @@ public class PlayerInventory
         this.maxWeight = maxWeight;
         HardWeightLimit = hardWeightLimit;
         weightRule = new WeightRule(this);
+    }
+
+    public bool TryUse(ItemInstance item)
+    {
+        if (item == null || !item.Data.IsUsable) return false;
+        if (stats == null || stats.IsDead) return false;
+        if (!inventories.Contains(item.Owner)) return false;
+
+        var ctx = RuleManager.Instance.Context;
+        foreach (var effect in item.Data.useEffects)
+            effect.Apply(ctx, default);
+
+        item.Durability--;
+        if (item.Durability <= 0)
+            foreach(var inv in inventories)
+                if(inv.Contains(item.Data)) inv.Remove(item);
+
+        ItemUsed?.Invoke(item);
+        return true;
     }
 
     // ---------------- 관리 ----------------

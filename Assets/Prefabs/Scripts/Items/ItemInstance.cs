@@ -13,10 +13,12 @@ public class ItemInstance
     public ItemShape Shape => Data.GetShape(Rotation);
     public int Width => Shape.Width;
     public int Height => Shape.Height;
+    public int Durability { get; internal set; }
 
     public ItemInstance(ItemData data, int rotation = 0)
     { 
         Data = data;
+        Durability = data.durability;
         int n = data.RotationCount;
         Rotation = ((rotation % n) + n) % n;
     }
