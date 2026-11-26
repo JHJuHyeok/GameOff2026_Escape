@@ -19,6 +19,7 @@ namespace Ju.Player
         [SerializeField] private bool hardWeightLimit = false;
 
         private PlayerStats stats;
+        private int movingCount;
 
         public int CurrentFloor { get; private set; }
         public RoomSpace CurrentSpace { get; set; }
@@ -26,6 +27,7 @@ namespace Ju.Player
         public GridInventory Inventory { get; private set; }
         public Interactable CurrentInteraction { get; set; }
         public bool IsDead => stats.IsDead;
+        public int MovingCount => movingCount;
 
         private void Awake()
         {
@@ -121,7 +123,11 @@ namespace Ju.Player
                 float d = ((Vector2)col.transform.position - (Vector2)transform.position).sqrMagnitude;
                 if (d < bestDict) { best = it; bestDict = d; }
             }
-            if (best != null) best.Interact(this);
+            if (best != null)
+            {
+                if (best is TeleportObject) movingCount++;
+                best.Interact(this);
+            }
         }
 
         public void TeleportTo(Vector3 position, int floor)

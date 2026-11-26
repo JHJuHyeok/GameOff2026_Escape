@@ -4,8 +4,8 @@ using Ju.RuleSystem;
 
 public enum ItemType { Expendable, Use, Luxury }
 
-[CreateAssetMenu(menuName = "Data/Item Data", fileName = "NewItem")]
-public class ItemData : ScriptableObject
+//[CreateAssetMenu(menuName = "Data/Item Data", fileName = "NewItem")]
+public abstract class ItemData : ScriptableObject
 {
     public string ItemName;
     public Sprite Icon;
@@ -26,9 +26,9 @@ public class ItemData : ScriptableObject
 
     public bool IsUsable => type == ItemType.Use && useEffects != null && useEffects.Length > 0;
 
-    private void OnEnable() => rotations = null;
+    protected virtual void OnEnable() => rotations = null;
 
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         Shape ??= new ShapeMask();
         Shape.Sanitize();

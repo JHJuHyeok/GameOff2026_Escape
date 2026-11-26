@@ -10,9 +10,9 @@ public class PlayerInventory
     private readonly IPlacementRule weightRule;
     private float totalWeight;
     private float maxWeight;
-    private PlayerStats stats;
 
     public IReadOnlyList<GridInventory> Inventories => inventories;
+    public PlayerStats Stats { get; set; }
 
     public event Action<GridInventory> InventoryAdded;
     public event Action<GridInventory> InventoryRemoved;
@@ -40,7 +40,7 @@ public class PlayerInventory
     public bool TryUse(ItemInstance item)
     {
         if (item == null || !item.Data.IsUsable) return false;
-        if (stats == null || stats.IsDead) return false;
+        if (Stats == null || Stats.IsDead) return false;
         if (!inventories.Contains(item.Owner)) return false;
 
         var ctx = RuleManager.Instance.Context;

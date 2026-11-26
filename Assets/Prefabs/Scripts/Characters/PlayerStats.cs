@@ -29,6 +29,7 @@ namespace Ju.Player
         private void Awake()
         {
             foreach (var e in entries) map[e.type] = e;
+            inventory.Stats = this;
         }
 
         private void Update()
@@ -83,11 +84,12 @@ namespace Ju.Player
             if (IsDead || !map.TryGetValue(t, out var e)) return;
             e.value = Mathf.Clamp(e.value + delta, 0f, e.max);
             Changed?.Invoke(t, e.value);
-            // 사망 조건: 현재는 배고픔이 0보다 작으면 사망으로 설정 (변경 가능성 있음)
-            if (t == StatType.Hunger && e.value <= 0f) { IsDead = true; Died?.Invoke(); }
+            if (t == StatType.Stress && e.value >= 100f) { Killed(); }
         }
 
         public float MoveSpeedMultiplier =>
             inventory == null ? 1f : Mathf.Lerp(1f, 0.4f, Mathf.InverseLerp(0.7f, 1.2f, inventory.WeightRatio));
+
+        public void Killed() { IsDead = true; Died?.Invoke(); }
     }
 }
