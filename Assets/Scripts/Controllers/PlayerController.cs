@@ -26,6 +26,7 @@ namespace Ju.Player
         public PlayerInventory Inventories { get; private set; }
         public GridInventory Inventory { get; private set; }
         public Interactable CurrentInteraction { get; set; }
+        public PlayerEquipment Equipment { get; private set; }
         public bool IsDead => stats.IsDead;
         public int MovingCount => movingCount;
 
@@ -39,6 +40,10 @@ namespace Ju.Player
             Inventories = new PlayerInventory(maxWeight, hardWeightLimit);
             Inventory = new GridInventory(inventorySize.x, inventorySize.y, "player");
             Inventories.Add(Inventory);
+
+            var itemUser = GetComponent<PlayerItemUser>();
+            Equipment = new PlayerEquipment(this, itemUser);
+            Equipment.Bind(Inventory);
         }
 
         private void Start()
@@ -65,6 +70,9 @@ namespace Ju.Player
                 else TryInteract();
             }
 
+            int equipSlot = ReadEquipSlotPressed();
+            if (equipSlot >= 0) Equipment.Toggle(equipSlot);
+
             if (ReadChecklistPressed() && ChecklistView.Instance != null)
                 ChecklistView.Instance.Toggle();
         }
@@ -72,6 +80,7 @@ namespace Ju.Player
         private void OnDestroy()
         {
             if (Instance == this) Instance = null;
+            Equipment?.Unbind();
             if (stats != null) stats.Died -= OnDied;
         }
 
@@ -94,6 +103,11 @@ namespace Ju.Player
             var input = InputManager.Instance;
             return input != null && input.InventoryPressed;
         }
+        private static int ReadEquipSlotPressed()
+        {
+            var input = InputManager.Instance;
+            return input != null ? input.EquipSlotPressed : -1;
+        }
         private static bool ReadChecklistPressed()
         {
             var input = InputManager.Instance;
@@ -104,10 +118,18 @@ namespace Ju.Player
         private static float ReadMoveX() => Input.GetAxisRaw("Horizontal");
         private static bool ReadInteractPressed() => Input.GetKeyDown(KeyCode.E);
         private static bool ReadInventoryPressed() => Input.GetKeyDown(KeyCode.Tab);
+        private static int ReadEquipSlotPressed()
+        {
+            for (int i = 0; i < PlayerEquipment.SlotCount; i++)
+                if (Input.GetKeyDown(KeyCode.Alpha1 + i)) return i;
+            return -1;
+        }
+        private static bool ReadChecklistPressed() => Input.GetKeyDown(KeyCode.I);
 #endif
 
         private void OnDied()
         {
+            Equipment.Deactivate();
             // 입력 차단
             // 사망 UI
             // 게임 오버 처리

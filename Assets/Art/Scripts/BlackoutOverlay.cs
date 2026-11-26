@@ -29,6 +29,8 @@ namespace Ju.Visual
         [SerializeField] private Color overlayColor = Color.black;
         [SerializeField, Range(0f, 1f)] private float maxDarkness = 0.97f;
 
+        public event Action<int> LightEnded;
+
         private class LightSource
         {
             public int id;
@@ -210,11 +212,18 @@ namespace Ju.Visual
             {
                 var l = lights[i];
                 l.age += dt;
-                if (l.follow == null) { lights.RemoveAt(i); continue; }
+                if (l.follow == null) { RemoveLightAt(i); continue; }
                 if (l.remaining < 0f) continue;
                 l.remaining -= dt;
-                if (l.remaining <= 0f) lights.RemoveAt(i);
+                if (l.remaining <= 0f) RemoveLightAt(i);
             }
+        }
+
+        private void RemoveLightAt(int index)
+        {
+            int id = lights[index].id;
+            lights.RemoveAt(index);
+            LightEnded?.Invoke(id);     // 제거 후 발행
         }
 
         private void Upload()

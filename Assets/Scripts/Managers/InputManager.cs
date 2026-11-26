@@ -34,11 +34,14 @@ namespace MainSystem
         [SerializeField] private string interactName    = "Interact";
         [SerializeField] private string checklistName   = "Checklist";
         [SerializeField] private string pauseName       = "Pause";
+        [SerializeField] private string[] equipSlotNames = { "Slot1", "Slot2", "Slot3", "Slot4" };
 
         private InputActionMap _gameplay, _ui;
         private InputAction _move, _look, _jump, _attack, _inventory, _interact, _checklist, _pause;
+        private InputAction[] _equipSlots;
 
         public bool GameplayEnabled { get; private set; }
+        public int EquipSlotCount => _equipSlots != null ? _equipSlots.Length : 0;
 
         // ---------------- 값 읽기 ----------------
 
@@ -56,7 +59,16 @@ namespace MainSystem
         public bool InteractPressed => _interact != null && _interact.WasPressedThisFrame();
         public bool ChecklistPressed => _checklist != null && _checklist.WasPressedThisFrame();
         public bool PausePressed    => _pause != null && _pause.WasPressedThisFrame();
-
+        public int EquipSlotPressed
+        {
+            get
+            {
+                if (_equipSlots == null) return -1;
+                for (int i = 0; i < _equipSlots.Length; i++)
+                    if (_equipSlots[i] != null && _equipSlots[i].WasPressedThisFrame()) return i;
+                return -1;
+            }
+        }
         // ---------------- 초기화 ----------------
 
         protected override void Init()
@@ -85,6 +97,10 @@ namespace MainSystem
             _attack     = _gameplay.FindAction(attackName, false);
             _interact   = _gameplay.FindAction(interactName, false);
             _pause      = _gameplay.FindAction(pauseName, false);
+            _equipSlots = new InputAction[equipSlotNames.Length];
+            for (int i = 0; i < equipSlotNames.Length; i++)
+                _equipSlots[i] = _gameplay.FindAction(equipSlotNames[i], false);
+            
             _inventory  = _ui?.FindAction(inventoryName, false);
             _checklist  = _ui?.FindAction(checklistName, false);
 

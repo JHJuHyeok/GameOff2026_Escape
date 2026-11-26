@@ -85,7 +85,12 @@ namespace Ju.Environment
                 duration = ItemTime + ExtraDuration;
             }
 
-            if (duration <= 0f) { OnInteract(player); return; }
+            if (duration <= 0f)
+            {
+                OnInteract(player);
+                NotifyItemUsed(player, usedItem);
+                return;
+            }
 
             activePlayer = player;
             player.CurrentInteraction = this;
@@ -112,7 +117,6 @@ namespace Ju.Environment
 
             bool hasAny = false;
             float best = float.MaxValue;
-            var inventory = player != null ? player.Inventory : null;
 
             for (int i = 0; i < requirements.Count; i++)
             {
@@ -120,7 +124,7 @@ namespace Ju.Environment
                 if (r.item == null) continue;               // 빈 슬롯은 무시 (null 허용)
                 hasAny = true;
 
-                if (inventory == null || !inventory.Contains(r.item)) continue;
+                if (!Possesses(player, r.item)) continue;
                 if (r.duration < best) { best = r.duration; usedItem = r.item; }
             }
 
@@ -141,29 +145,24 @@ namespace Ju.Environment
             Debug.Log($"[{name}] 필요한 아이템: {string.Join(", ", names)}", this);
         }
 
-        // ---------------- 진행 ---------------- //기존 InteractionView.Instance로 연결을 위해서 잠시 주석처리
-        //private IEnumerator Run(PlayerController player, ItemData usedItem, float duration)
-        //{
-        //    var view = InteractionProgressView.Instance;
-        //    if (view != null) view.Show();
+        private static bool Possesses(PlayerController player, ItemData item)
+        {
+            if (player == null || player.Inventory == null || item == null) return false;
+            if (!player.Inventory.Contains(item)) return false;
 
-        //    float elapsed = 0f;
-        //    while (elapsed < duration)
-        //    {
-        //        if (!IsStillValid(player, usedItem))
-        //        {
-        //            CancelInteraction();
-        //            yield break;
-        //        }
+            if (item is IExpandableItem ex && ex.UseTiming == ExpandableUseTiming.OnInteract)
+                return player.Equipment != null && player.Equipment.IsEquipped(item);
 
-        //        elapsed += Time.deltaTime;
-        //        if (view != null) view.SetProgress(elapsed / duration);
-        //        yield return null;
-        //    }
+            return true;
+        }
 
-        //    EndProgress();
-        //    OnInteract(player);         // 완료 시점에 결과 실행 (규칙 이벤트도 이때 발행)
-        //}
+        private static void NotifyItemUsed(PlayerController player, ItemData usedItem)
+        {
+            if (usedItem == null || player == null || player.Equipment == null) return;
+            player.Equipment.OnInteractionUsed(usedItem);
+        }
+
+        // ---------------- 진행 ---------------- 
 
         private IEnumerator Run(PlayerController player, ItemData usedItem, float duration)
         {
@@ -194,6 +193,7 @@ namespace Ju.Environment
 
             EndProgress();
             OnInteract(player);
+            NotifyItemUsed(player, usedItem);
         }
 
         private bool IsStillValid(PlayerController player, ItemData usedItem)
@@ -204,17 +204,6 @@ namespace Ju.Environment
             Vector2 p = player.transform.position;
             return (p - Col.ClosestPoint(p)).sqrMagnitude <= cancelDistance * cancelDistance;
         }
-
-        //private void EndProgress() //기존 InteractionView.Instance로 연결을 위해서 잠시 주석처리
-        //{
-        //    running = null;
-        //    if (activePlayer != null && activePlayer.CurrentInteraction == this)
-        //        activePlayer.CurrentInteraction = null;
-        //    activePlayer = null;
-
-        //    var view = InteractionProgressView.Instance;
-        //    if (view != null) view.Hide();
-        //}
 
         private void EndProgress()
         {

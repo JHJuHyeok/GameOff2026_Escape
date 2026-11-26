@@ -10,7 +10,7 @@ namespace Ju.Player
 
     public interface IExpandableItem
     {
-        ExpandableUseTiming useTiming { get; }
+        ExpandableUseTiming UseTiming { get; }
 
         // 슬롯 전환으로 활성화될 때
         void OnEquip(ItemUseContext ctx);

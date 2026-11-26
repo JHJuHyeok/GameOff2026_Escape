@@ -1,4 +1,4 @@
-using Ju.Player;
+using System;
 
 namespace Ju.Player
 {
@@ -14,5 +14,7 @@ namespace Ju.Player
         public ItemInstance Item;
         public PlayerController Player;
         public PlayerItemUser User;
+
+        public Action OnEffectEnded;
     }
 }
