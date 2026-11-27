@@ -18,4 +18,11 @@ namespace Ju.Player
         // 다른 슬롯으로 전환 / 해제 / 슬롯에서 제거될 때
         void OnUnequip(ItemUseContext ctx);
     }
+
+    public interface IInteractionUseHook
+    {
+        bool ConsumeDurability { get; }
+
+        void OnInteractionUsed(ItemUseContext ctx);
+    }
 }

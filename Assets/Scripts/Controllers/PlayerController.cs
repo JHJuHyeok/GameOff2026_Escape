@@ -28,6 +28,7 @@ namespace Ju.Player
         public GridInventory Inventory { get; private set; }
         public Interactable CurrentInteraction { get; set; }
         public PlayerEquipment Equipment { get; private set; }
+        public PlayerStats Stats => stats;
         public bool IsDead => stats.IsDead;
         public int MovingCount => movingCount;
 
