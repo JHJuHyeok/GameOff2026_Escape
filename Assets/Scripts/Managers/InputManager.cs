@@ -33,11 +33,12 @@ namespace MainSystem
         [SerializeField] private string inventoryName   = "Inventory";
         [SerializeField] private string interactName    = "Interact";
         [SerializeField] private string checklistName   = "Checklist";
+        [SerializeField] private string sprintName      = "Sprint";
         [SerializeField] private string pauseName       = "Pause";
         [SerializeField] private string[] equipSlotNames = { "Slot1", "Slot2", "Slot3", "Slot4" };
 
         private InputActionMap _gameplay, _ui;
-        private InputAction _move, _look, _jump, _attack, _inventory, _interact, _checklist, _pause;
+        private InputAction _move, _look, _jump, _attack, _inventory, _interact, _checklist,_sprint , _pause;
         private InputAction[] _equipSlots;
 
         public bool GameplayEnabled { get; private set; }
@@ -51,6 +52,7 @@ namespace MainSystem
         public bool JumpPressed     => _jump != null && _jump.WasPressedThisFrame();
         public bool JumpHeld        => _jump != null && _jump.IsPressed();
         public bool JumpReleased    => _jump != null && _jump.WasReleasedThisFrame();
+        public bool SprintPressed => _sprint != null && _sprint.IsPressed();
 
         public bool AttackPressed   => _attack != null && _attack.WasPressedThisFrame();
         public bool AttackHeld      => _attack != null && _attack.IsPressed();
@@ -94,6 +96,7 @@ namespace MainSystem
             _move       = _gameplay.FindAction(moveName, false);
             _look       = _gameplay.FindAction(lookName, false);
             _jump       = _gameplay.FindAction(jumpName, false);
+            _sprint     = _gameplay.FindAction(sprintName, false);
             _attack     = _gameplay.FindAction(attackName, false);
             _interact   = _gameplay.FindAction(interactName, false);
             _pause      = _gameplay.FindAction(pauseName, false);

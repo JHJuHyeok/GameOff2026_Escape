@@ -13,6 +13,7 @@ namespace Ju.Player
         public static PlayerController Instance { get; private set; }
 
         [SerializeField] private float moveSpeed = 4f;
+        [SerializeField] private float sprintMultiplier = 1.5f;
         [SerializeField] private float interactRadius = 1f;
         [SerializeField] private Vector2Int inventorySize = new(10, 10);
         [SerializeField] private float maxWeight = 100f;
@@ -58,7 +59,12 @@ namespace Ju.Player
 
             float h = ReadMoveX();
             if (h != 0f)
-                transform.Translate(Vector3.right * h * moveSpeed * stats.MoveSpeedMultiplier * Time.deltaTime);
+            {
+                float speed = moveSpeed * stats.MoveSpeedMultiplier;
+                if (ReadPressedSprint()) speed *= sprintMultiplier;
+                transform.Translate(Vector3.right * h * speed * Time.deltaTime);
+            }
+
 
             if (ReadInventoryPressed() && InventoryPanel.Instance != null)
                 InventoryPanel.Instance.ToggleInventory();
@@ -93,6 +99,11 @@ namespace Ju.Player
                 Debug.Log("InputManager가 비어있음");
             return input != null ? input.Move.x : 0f;
         }
+        private static bool ReadPressedSprint()
+        {
+            var input = InputManager.Instance;
+            return input != null && input.SprintPressed;
+        }
         private static bool ReadInteractPressed()
         {
             var input = InputManager.Instance;
@@ -116,6 +127,7 @@ namespace Ju.Player
 #else
         // Input System이 비활성 중일 때
         private static float ReadMoveX() => Input.GetAxisRaw("Horizontal");
+        private static bool ReadPressedSprint() => Input.GetKey(KeyCode.LeftShift);
         private static bool ReadInteractPressed() => Input.GetKeyDown(KeyCode.E);
         private static bool ReadInventoryPressed() => Input.GetKeyDown(KeyCode.Tab);
         private static int ReadEquipSlotPressed()
