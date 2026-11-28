@@ -4,7 +4,7 @@ using Ju.Visual;
 namespace Ju.RuleSystem
 {
     /// 진행 중인 모든 암전을 즉시 해제한다. (규칙 준수 보상, 전력 복구 등)
-    [CreateAssetMenu(menuName = "Ju/RuleSystem/Effects/Clear Blackout")]
+    [CreateAssetMenu(menuName = "Effects/Clear Blackout")]
     public class ClearBlackoutEffect : RuleEffect
     {
         public float fadeOut = 1f;

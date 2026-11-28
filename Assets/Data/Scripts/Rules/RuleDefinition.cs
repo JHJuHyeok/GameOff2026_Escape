@@ -19,7 +19,7 @@ namespace Ju.RuleSystem
     public class RuleDefinition : ScriptableObject
     {
         [Header("식별")]
-        public string ruleId;
+        public int ruleId;
         [TextArea] public string displayText;
 
         [Header("논리")]

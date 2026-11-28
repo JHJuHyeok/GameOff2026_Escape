@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009c74bca5c193043953b43c9c1d253b, type: 3}
+  m_Name: E_MovingCount_Every5
+  m_EditorClassIdentifier: Assembly-CSharp::Ju.RuleSystem.MovingCountGateEffect
+  designerNote: "5\uBC88\uC529 \uC774\uB3D9\uD560 \uB54C\uB9C8\uB2E4 \uC778\uBCA4\uD1A0\uB9AC
+    \uAD00\uB828 \uD6A8\uACFC \uB79C\uB364 \uD560\uB2F9"
+  check: 1
+  threshold: 5
+  resetWhenMet: 1
+  whenMet:
+  - {fileID: 11400000, guid: 6594263ab0667f844b34ba4eac184374, type: 2}
+  otherwise: []

@@ -1240,6 +1240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ju.Player.PlayerController
   moveSpeed: 4
+  sprintMultiplier: 1.5
   interactRadius: 1
   inventorySize: {x: 10, y: 10}
   maxWeight: 100
@@ -1262,144 +1263,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7610699631143609476, guid: 90579c7429803d745a7fc166f4dbcb0a, type: 3}
   m_PrefabInstance: {fileID: 310103959}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &939397890
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 939397893}
-  - component: {fileID: 939397892}
-  - component: {fileID: 939397891}
-  m_Layer: 0
-  m_Name: Ground
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!61 &939397891
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 939397890}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!212 &939397892
-SpriteRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 939397890}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
---- !u!4 &939397893
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 939397890}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &954081912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1519,10 +1382,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ju.Environment.MapGenerator
   startRoomPrefab: {fileID: 3801210613079861254, guid: 397c86190416b88448d24f0f14d11c9f, type: 3}
   stairRoomPrefabs:
-  - {fileID: 723486683109210424, guid: 4f8c9857eb804394db8f5bae358a98f5, type: 3}
+  - {fileID: 7636887232154128437, guid: d2f8525140272c14ebb571f65d8dc82c, type: 3}
   roomPrefabs:
-  - {fileID: 5561453617194706020, guid: ae12a63a578158344bd1f981818d5bfa, type: 3}
-  - {fileID: 1151145408290214369, guid: fa1258651b1d6b3418f963715b7021e2, type: 3}
+  - {fileID: 1767425084806674846, guid: 7f0b4178d0b3fa6429d8a01edd04508b, type: 3}
+  - {fileID: 835214524539454041, guid: 2e123f99f5da57547a713ba5f20fe7ab, type: 3}
+  - {fileID: 1545381636209842848, guid: ccaee869d73507f4a86732535600586c, type: 3}
+  - {fileID: 3308399974195921848, guid: 5401e52ae3212db41ab78f6e8afc2886, type: 3}
+  - {fileID: 921652353249795011, guid: 3dd8ec0252e70f642a546f90882d6b49, type: 3}
+  - {fileID: 4594211769050937265, guid: 321d6389fe147174c93243dd2decab79, type: 3}
+  - {fileID: 3490690483535015536, guid: 16a907b72f6bce64481a6f8bb4a3d9a8, type: 3}
+  - {fileID: 5435328283890521605, guid: 8bb00a06954a69346ba6f7fbf4531b43, type: 3}
   allowDuplicates: 1
   groupCount: 2
   floorsPerGroup: 3
@@ -2492,7 +2361,13 @@ MonoBehaviour:
   inventoryName: Inventory
   interactName: Interact
   checklistName: Checklist
+  sprintName: Sprint
   pauseName: Pause
+  equipSlotNames:
+  - Slot1
+  - Slot2
+  - Slot3
+  - Slot4
 --- !u!4 &1753561751
 Transform:
   m_ObjectHideFlags: 0
@@ -2650,7 +2525,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 37445214}
-  - {fileID: 939397893}
   - {fileID: 851870553}
   - {fileID: 1645658631}
   - {fileID: 1405910733}

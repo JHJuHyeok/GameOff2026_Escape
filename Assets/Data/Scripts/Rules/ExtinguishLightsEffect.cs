@@ -5,7 +5,7 @@ using Ju.Visual;
 namespace Ju.RuleSystem
 {
     /// 모든 광원을 끈다. suppressDuration 동안은 새 광원도 켤 수 없다. (손전등이 먹통이 되는 연출)
-    [CreateAssetMenu(menuName = "Ju/RuleSystem/Effects/Extinguish Lights")]
+    [CreateAssetMenu(menuName = "Effects/Extinguish Lights")]
     public class ExtinguishLightsEffect : RuleEffect
     {
         [Tooltip("0이면 지금 켜진 광원만 끔")]

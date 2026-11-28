@@ -30,7 +30,7 @@ namespace Ju.Player
         public PlayerEquipment Equipment { get; private set; }
         public PlayerStats Stats => stats;
         public bool IsDead => stats.IsDead;
-        public int MovingCount => movingCount;
+        public int MovingCount { get => movingCount; set { MovingCount = movingCount; } }
 
         private void Awake()
         {

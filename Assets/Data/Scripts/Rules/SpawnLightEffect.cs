@@ -5,7 +5,7 @@ namespace Ju.RuleSystem
 {
     /// 원형 마스크 광원을 만든다. 암전 중에만 눈에 보인다.
     /// (예: 전등 스위치를 올리면 그 주변만 밝아짐 / 규칙 준수 보상으로 플레이어 주변 광원)
-    [CreateAssetMenu(menuName = "Ju/RuleSystem/Effects/Spawn Light")]
+    [CreateAssetMenu(menuName = "Effects/Spawn Light")]
     public class SpawnLightEffect : RuleEffect
     {
         public enum Anchor { Player, TriggerTarget }

@@ -116,7 +116,17 @@ namespace Ju.Player
         public void OnInteractionUsed(ItemData data)
         {
             if (!IsEquipped(data)) return;
-            ConsumeDurability(slots[activeIndex].Instance);
+
+            var slot = slots[activeIndex];
+            bool consume = true;
+
+            if (slot.Instance.Data is IInteractionUseHook hook)
+            {
+                hook.OnInteractionUsed(MakeContext(slot));
+                consume = hook.ConsumeDurability;
+            }
+
+            if (consume) ConsumeDurability(slots[activeIndex].Instance);
         }
 
         private void ConsumeDurability(ItemInstance instance)

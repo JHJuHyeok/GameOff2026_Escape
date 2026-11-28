@@ -5,7 +5,7 @@ using Ju.Visual;
 namespace Ju.RuleSystem
 {
     /// 화면 암전. 여러 암전이 겹치면 모두 끝나야 해제된다.
-    [CreateAssetMenu(menuName = "Ju/RuleSystem/Effects/Blackout")]
+    [CreateAssetMenu(menuName = "Effects/Blackout")]
     public class BlackoutEffect : RuleEffect
     {
         [Tooltip("0이면 ClearBlackoutEffect가 실행될 때까지 유지")]

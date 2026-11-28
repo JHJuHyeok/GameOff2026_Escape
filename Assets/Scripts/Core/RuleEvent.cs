@@ -40,15 +40,13 @@ namespace Ju.RuleSystem
     {
         public TargetKind kind = TargetKind.Any;
         public int specificId;                       // 비었으면 무시
-        public List<string> requiredTags = new();       // 요구 태그(전부 포함되야 일치)
-        public List<string> excludeTags = new();        // 제외 태그(하나라도 있으면 불일치)
         public bool restrictFloor;
         public int floor;
 
         public bool Matches(ITargetable t, int eventFloor)
         {
             if (restrictFloor && eventFloor != floor) return false;
-            if (t == null) return kind == TargetKind.Any && specificId != 0 && requiredTags.Count == 0;
+            if (t == null) return kind == TargetKind.Any && specificId != 0;
             if (kind != TargetKind.Any && t.Kind != kind) return false;
             if (specificId != 0 && t.Id != specificId) return false;
             return true;
